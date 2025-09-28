@@ -5,97 +5,26 @@ class Model_mapel extends CI_Model
 {
     public function countMapel()
     {
-        $sql = "SELECT COUNT(*) AS mapel FROM `cbt_course`
-                WHERE  category>0;";
+        $sql = "SELECT COUNT(*) AS mapel FROM `a_mapel`;";
         $query = $this->db->query($sql);
         return $query->row()->mapel;
     }
 
-    public function countMapelAKL()
-    {
-        $sql = "SELECT COUNT(*) AS mapel_akl FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%AKL%'";
-        $query = $this->db->query($sql);
-        return $query->row()->mapel_akl;
-    }
-
-    public function countMapelBDP()
-    {
-        $sql = "SELECT COUNT(*) AS mapel_bdp FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%PM%'";
-        $query = $this->db->query($sql);
-        return $query->row()->mapel_bdp;
-    }
-
-    public function countMapelOTKP()
-    {
-        $sql = "SELECT COUNT(*) AS mapel_otkp FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%MPLB%'";
-        $query = $this->db->query($sql);
-        return $query->row()->mapel_otkp;
-    }
-
-    public function countMapelTKJ()
-    {
-        $sql = "SELECT COUNT(*) AS mapel_tkj FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%TJKT%'";
-        $query = $this->db->query($sql);
-        return $query->row()->mapel_tkj;
-    }
-
-    public function countMapelDKV()
-    {
-        $sql = "SELECT COUNT(*) AS mapel_dkv FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%dkv%'";
-        $query = $this->db->query($sql);
-        return $query->row()->mapel_dkv;
-    }
-
     public function dataMapel()
     {
-        $sql = "SELECT *  FROM `cbt_course`
-                WHERE  category>0;";
+        $sql = "SELECT concat(a_mapel.id_mapel,a_mapel.id_kelas) AS id,a_kelas.kelas,a_mapel.nama_mapel FROM `a_mapel`
+INNER JOIN a_kelas
+ON a_mapel.id_kelas=a_kelas.id;";
         $query = $this->db->query($sql);
-        return $query->result_array();
+        return $query->result_array;
     }
 
-    public function dataMapelAKL()
+    function simpan($data = array())
     {
-        $sql = "SELECT * FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%AKL%'";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
+        $jumlah = count($data);
 
-    public function dataMapelBDP()
-    {
-        $sql = "SELECT * FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%PM%'";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function dataMapelOTKP()
-    {
-        $sql = "SELECT * FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%MPLB%'";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function dataMapelTKJ()
-    {
-        $sql = "SELECT * FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%TJKT%'";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function dataMapelDKV()
-    {
-        $sql = "SELECT * FROM `cbt_course`
-                WHERE format='singleactivity' AND fullname LIKE '%DKV%'";
-        $query = $this->db->query($sql);
-        return $query->result_array();
+        if ($jumlah > 0) {
+            $this->db->insert_batch('a_mapel', $data);
+        }
     }
 }

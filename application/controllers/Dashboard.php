@@ -15,7 +15,7 @@ class Dashboard extends CI_Controller
 
         $isi['kelas'] = $this->Model_kelas->countKelas();
         $isi['mapel'] = $this->Model_mapel->countMapel();
-        $isi['ujian'] = $this->Model_ujian->countUjian();
+        // $isi['ujian'] = $this->Model_ujian->countUjian();
 
         // Kelas
         $isi['x'] = $this->Model_siswa->dataSiswaX();
@@ -24,22 +24,6 @@ class Dashboard extends CI_Controller
 
         $isi2['title'] = 'CBT | Administrator';
         $isi['content'] = 'tampilan_home';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer', $isi);
-    }
-
-    public function moodle()
-    {
-        $this->Model_keamanan->getKeamanan();
-        $isi['siswa_moodle'] = $this->Model_siswa->countSiswaMoodle();
-        $isi['siswa_aktif'] = $this->Model_siswa->countSiswaMoodleAktif();
-        $isi['siswa_non_aktif'] = $this->Model_siswa->countSiswaMoodleNONAktif();
-
-        // $isi['siswa_login'] = $this->Model_siswa->countSiswaMoodleLogin();
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'tampilan_dashboard_moodle';
         $this->load->view('templates/header', $isi2);
         $this->load->view('tampilan_dashboard', $isi);
         $this->load->view('templates/footer', $isi);
@@ -155,6 +139,79 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/header', $isi2);
         $this->load->view('tampilan_dashboard', $isi);
         $this->load->view('templates/footer');
+    }
+
+    public function hapus_all_mata_pelajaran()
+    {
+        $this->db->empty_table('a_mapel');
+        $this->session->set_flashdata('pesan', '<div class="row">
+        <div class="col-md mt-2">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Data Mapel Berhasil Di Hapus</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        </div>
+        </div>');
+        redirect('Dashboard/mata_pelajaran');
+    }
+
+    public function upload_mata_peajaran()
+    {
+        if ($this->input->post('submit', TRUE) == 'upload') {
+            $config['upload_path']      = './temp_doc/';
+            $config['allowed_types']    = 'xlsx|xls';
+            $config['file_name']        = 'doc' . time();
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('excel')) {
+                $file   = $this->upload->data();
+
+                $reader = ReaderEntityFactory::createXLSXReader();
+                $reader->open('temp_doc/' . $file['file_name']);
+
+
+                foreach ($reader->getSheetIterator() as $sheet) {
+                    $numRow = 1;
+                    $save   = array();
+                    foreach ($sheet->getRowIterator() as $row) {
+
+                        if ($numRow > 1) {
+
+                            $cells = $row->getCells();
+
+                            $data = array(
+                                'id_mapel'              => $cells[0],
+                                'id_kelas'     => $cells[1],
+                                'nama_mapel'            => $cells[2]
+                            );
+                            array_push($save, $data);
+                        }
+                        $numRow++;
+                    }
+                    $this->Model_mapel->simpan($save);
+                    $reader->close();
+                    unlink('temp_doc/' . $file['file_name']);
+                    $this->session->set_flashdata('pesan', '<div class="row">
+        <div class="col-md mt-2">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Data Mapel Berhasil Di Tambah</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        </div>
+        </div>');
+                    redirect('Dashboard/mata_pelajaran');
+                }
+            } else {
+                echo "Error :" . $this->upload->display_errors();
+            }
+        }
     }
 
     public function ruang_ujian()
