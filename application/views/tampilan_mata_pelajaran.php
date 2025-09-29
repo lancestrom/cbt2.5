@@ -30,7 +30,7 @@
                                 <th scope="col">ID </th>
                                 <th scope="col">Kelas</th>
                                 <th scope="col">Mapel</th>
-                                <th scope="col">Jurusan</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -43,7 +43,7 @@
                                     <td class="text-center"><?= $row['id'] ?></td>
                                     <td class="text-center"><?= $row['kelas'] ?></td>
                                     <td class="text-center"><?= $row['kode'] ?></td>
-                                    <td><?= $row['jurusan'] ?></td>
+                                   
                             </tr>
                         <?php } ?>
                         </tbody>

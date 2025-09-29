@@ -12,9 +12,7 @@ class Model_mapel extends CI_Model
 
     public function dataMapel()
     {
-        $sql = "SELECT concat(a_mapel.id_mapel,a_mapel.id_kelas) AS id,a_kelas.kelas,a_mapel.nama_mapel FROM `a_mapel`
-INNER JOIN a_kelas
-ON a_mapel.id_kelas=a_kelas.id;";
+        $sql = "SELECT * FROM `a_mapel`";
         $query = $this->db->query($sql);
         return $query->result_array;
     }

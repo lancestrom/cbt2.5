@@ -7,6 +7,22 @@ use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Dashboard extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        // load model sekali saja di constructor
+        // 'Model_keamanan', 'Model_jurusan', 'Model_kelas', 'Model_siswa', 'Model_mapel', 'Model_ujian', 'Model_ruang'
+        $this->load->model(array(
+            'Model_keamanan',
+            'Model_jurusan',
+            'Model_kelas',
+            'Model_siswa',
+            'Model_mapel',
+            'Model_ujian',
+            'Model_ruang'
+        ));
+    }
+
     public function index()
     {
         $this->Model_keamanan->getKeamanan();
@@ -31,7 +47,7 @@ class Dashboard extends CI_Controller
 
     public function jurusan()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['jurusan'] = $this->Model_jurusan->dataJurusan();
 
 
@@ -44,7 +60,7 @@ class Dashboard extends CI_Controller
 
     public function kelas()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['kelas'] = $this->Model_kelas->dataKelasMaster();
 
 
@@ -130,7 +146,7 @@ class Dashboard extends CI_Controller
 
     public function mata_pelajaran()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['mapel'] = $this->Model_mapel->dataMapel();
 
 
@@ -216,7 +232,7 @@ class Dashboard extends CI_Controller
 
     public function ruang_ujian()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['ruang'] = $this->Model_ruang->dataRuang();
 
 
@@ -230,7 +246,7 @@ class Dashboard extends CI_Controller
 
     public function siswa()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['siswa'] = $this->Model_siswa->dataSiswa();
 
 
@@ -243,7 +259,7 @@ class Dashboard extends CI_Controller
 
     public function siswa_moodle()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['siswa'] = $this->Model_siswa->dataSiswaMoodle();
 
         $isi2['title'] = 'CBT | Administrator';
@@ -373,7 +389,7 @@ class Dashboard extends CI_Controller
 
     public function siswa_block()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['siswa'] = $this->Model_siswa->dataSiswaMoodleBlock();
 
         $isi2['title'] = 'CBT | Administrator';
@@ -579,7 +595,7 @@ class Dashboard extends CI_Controller
 
     public function jadwal_ujian()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['ujian'] = $this->Model_ujian->jadwalUjian();
 
 
@@ -592,7 +608,7 @@ class Dashboard extends CI_Controller
 
     public function akun_peserta()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['kelas'] = $this->Model_kelas->dataKelas();
 
 
@@ -605,7 +621,7 @@ class Dashboard extends CI_Controller
 
     public function print_akun($id_kelas)
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['header'] = $this->Model_siswa->header_akun_siswa($id_kelas);
         $isi['siswa'] = $this->Model_siswa->akun_siswa($id_kelas);
 
@@ -615,7 +631,7 @@ class Dashboard extends CI_Controller
 
     public function print_kartu($id_kelas)
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['header'] = $this->Model_siswa->header_akun_siswa($id_kelas);
         $isi['siswa'] = $this->Model_siswa->akun_siswa($id_kelas);
         $isi['title'] = 'CBT | Administrator';
@@ -624,7 +640,7 @@ class Dashboard extends CI_Controller
 
     public function status_ujian()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi2['title'] = 'CBT | Administrator';
         $isi['content'] = 'Ujian/tampilan_status_ujian';
         $isi['ujian_hari_ini'] = $this->Model_ujian->ujian_hari_ini();
@@ -636,7 +652,7 @@ class Dashboard extends CI_Controller
 
     public function status_peserta_login()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['status'] = $this->Model_ujian->statusPesertaLogin();
 
 
@@ -765,7 +781,7 @@ class Dashboard extends CI_Controller
 
     public function status_peserta()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['status'] = $this->Model_ujian->statusPeserta();
 
 
@@ -778,7 +794,7 @@ class Dashboard extends CI_Controller
 
     public function filter_status_peserta()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['status'] = $this->Model_ujian->FilterstatusPeserta();
 
 
@@ -793,7 +809,7 @@ class Dashboard extends CI_Controller
 
     public function rekap_nilai()
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['rekap'] = $this->Model_ujian->rekap_nilai();
 
 
@@ -806,7 +822,7 @@ class Dashboard extends CI_Controller
 
     public function print_nilai($id_course)
     {
-        $this->Model_keamanan->getKeamanan();
+
         $isi['header'] = $this->Model_ujian->print_nilai_header($id_course);
         $isi['rekap'] = $this->Model_ujian->print_nilai_rekap($id_course);
 
