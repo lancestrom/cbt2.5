@@ -12,9 +12,11 @@ class Model_mapel extends CI_Model
 
     public function dataMapel()
     {
-        $sql = "SELECT * FROM `a_mapel`";
+        $sql = "SELECT * FROM `a_mapel`
+INNER JOIN a_kelas
+ON a_mapel.id_kelas=a_kelas.id;";
         $query = $this->db->query($sql);
-        return $query->result_array;
+        return $query->result_array();
     }
 
     function simpan($data = array())
