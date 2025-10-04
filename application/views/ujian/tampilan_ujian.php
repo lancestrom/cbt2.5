@@ -4,17 +4,21 @@
 
 
 <?= $this->session->flashdata('pesan') ?>
+
 <div class="row">
-    <div class="col-mad">
+    <div class="col-md">
         <div class="card">
             <div class="card-body">
-               <h5 class="font-weight-bolder text-uppercase">
-
-               </h5>
+                <h5>
+                    <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder" data-toggle="modal" data-target="#exampleModal">
+                        Tambah Ujian
+                    </button>
+                </h5>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row mt-2">
     <div class="col-md">
         <div class="card">
@@ -63,6 +67,23 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title text-uppercase font-weight-bolder" id="exampleModalLabel">Tambah Ujian</h5>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
