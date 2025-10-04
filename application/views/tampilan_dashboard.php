@@ -18,11 +18,6 @@
                 <i class="fas fa-school"></i>
                 <span>Dashboard</span></a>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/moodle">
-                <i class="fas fa-school"></i>
-                <span>Dashboard Moodel</span></a>
-        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -43,29 +38,12 @@
                     <a class="collapse-item" href="<?= base_url() ?>Dashboard/jurusan">Master Jurusan</a>
                     <a class="collapse-item" href="<?= base_url() ?>Dashboard/kelas">Master Kelas</a>
                     <a class="collapse-item" href="<?= base_url() ?>Dashboard/mata_pelajaran">Master Mata Pelajaran</a>
-                    <!-- <a class="collapse-item" href="<?= base_url() ?>Dashboard/ruang_ujian">Master Ruang Ujian</a> -->
+                    <a class="collapse-item" href="<?= base_url() ?>Dashboard/siswa">Peserta Ujian</a>
                 </div>
             </div>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/siswa">
-                <i class="fas fa-user-graduate"></i>
-                <span>Peserta Ujian</span></a>
-        </li> -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-user-graduate"></i>
-                <span>Peserta Ujian</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Peserta Ujian</h6>
-                    <a class="collapse-item" href="<?= base_url() ?>Dashboard/siswa">Peserta Ujian Admin</a>
-                    <a class="collapse-item" href="<?= base_url() ?>Dashboard/siswa_moodle">Peserta Ujian Moodle</a>
-                    <a class="collapse-item" href="<?= base_url() ?>Dashboard/siswa_block">Blokir Perta Ujian</a>
-                </div>
-            </div>
-        </li>
+
+
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/jadwal_ujian">
                 <i class="far fa-calendar-alt"></i>
