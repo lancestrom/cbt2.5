@@ -7,10 +7,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'cbt25',
+	'hostname' => '103.103.23.240',
+	'username' => 'cbt',
+	'password' => 'smktkjTH46',
+	'database' => 'cbtonline_db',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
