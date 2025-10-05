@@ -24,12 +24,13 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                        <thead class="text-uppercase">
                             <tr class="text-center">
                                 <th scope="col">#</th>
                                 <th scope="col">ID </th>
                                 <th scope="col">Kelas</th>
                                 <th scope="col">Mapel</th>
+                                <th scope="col">AKSI</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,10 +40,15 @@
                                 foreach ($mapel as $row) {
                                 ?>
                                     <td><?php echo $no++; ?></td>
-                                    <td class="text-center"><?= $row['id_kelas'] ?></td>
+                                    <td class="text-center"><?= $row['id_mapel'] ?></td>
                                     <td class="text-center"><?= $row['kelas'] ?></td>
                                     <td class="text-center"><?= $row['nama_mapel'] ?></td>
+                                    <td class="text-center">
+                                        <h5>
+                                            <a class="btn btn-primary btn-sm" href="<?= base_url() ?>Dashboard/buat_mapel_jadwal/<?= $row['id_mapel'] ?>">Buat jadwal</a>
+                                        </h5>
 
+                                    </td>
                             </tr>
                         <?php } ?>
                         </tbody>

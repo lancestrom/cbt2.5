@@ -47,7 +47,7 @@ class Dashboard extends CI_Controller
 
     public function jurusan()
     {
-
+        $this->Model_keamanan->getKeamanan();
         $isi['jurusan'] = $this->Model_jurusan->dataJurusan();
 
 
@@ -60,7 +60,7 @@ class Dashboard extends CI_Controller
 
     public function kelas()
     {
-
+        $this->Model_keamanan->getKeamanan();
         $isi['kelas'] = $this->Model_kelas->dataKelasMaster();
 
 
@@ -73,6 +73,7 @@ class Dashboard extends CI_Controller
 
     public function hapus_all_kelas()
     {
+        $this->Model_keamanan->getKeamanan();
         $this->db->empty_table('a_kelas');
         $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
@@ -90,6 +91,7 @@ class Dashboard extends CI_Controller
 
     public function upload_kelas()
     {
+        $this->Model_keamanan->getKeamanan();
         if ($this->input->post('submit', TRUE) == 'upload') {
             $config['upload_path']      = './temp_doc/';
             $config['allowed_types']    = 'xlsx|xls';
@@ -146,7 +148,7 @@ class Dashboard extends CI_Controller
 
     public function mata_pelajaran()
     {
-
+        $this->Model_keamanan->getKeamanan();
         $isi['mapel'] = $this->Model_mapel->dataMapel();
 
 
@@ -157,8 +159,54 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function buat_mapel_jadwal($id_mapel)
+    {
+        $this->Model_keamanan->getKeamanan();
+        $isi['mapel'] = $this->Model_mapel->buat_mapel_jadwal($id_mapel);
+
+
+        $isi2['title'] = 'CBT | Administrator';
+        $isi['content'] = 'Ujian/tampilan_buat_jadwal';
+        $this->load->view('templates/header', $isi2);
+        $this->load->view('tampilan_dashboard', $isi);
+        $this->load->view('templates/footer');
+    }
+
+    public function simpan_jadwal()
+    {
+        $this->Model_keamanan->getKeamanan();
+        $id_jadwal = rand(00000, 99990);
+        $id_mapel = $this->input->post('id_mapel');
+        $tanggal_mulai = $this->input->post('tanggal_mulai');
+        $waktu_mulai = $this->input->post('waktu_mulai');
+        $waktu_selesai = $this->input->post('waktu_selesai');
+
+        $data = array(
+            'id_jadwal' => $id_jadwal,
+            'id_mapel' => $id_mapel,
+            'tanggal_mulai' => $tanggal_mulai,
+            'waktu_mulai' => $waktu_mulai,
+            'waktu_selesai' => $waktu_selesai
+        );
+
+        $this->db->insert('a_jadwal', $data);
+        $this->session->set_flashdata('pesan', '<div class="row">
+        <div class="col-md mt-2">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Data Jadwal Berhasil Di Tambah</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        </div>
+        </div>');
+        redirect('Dashboard/mata_pelajaran');
+    }
+
     public function hapus_all_mata_pelajaran()
     {
+        $this->Model_keamanan->getKeamanan();
         $this->db->empty_table('a_mapel');
         $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
@@ -176,6 +224,7 @@ class Dashboard extends CI_Controller
 
     public function upload_mata_peajaran()
     {
+        $this->Model_keamanan->getKeamanan();
         if ($this->input->post('submit', TRUE) == 'upload') {
             $config['upload_path']      = './temp_doc/';
             $config['allowed_types']    = 'xlsx|xls';
@@ -230,23 +279,10 @@ class Dashboard extends CI_Controller
         }
     }
 
-    public function ruang_ujian()
-    {
-
-        $isi['ruang'] = $this->Model_ruang->dataRuang();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'tampilan_ruang_ujian';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
 
     public function siswa()
     {
-
+        $this->Model_keamanan->getKeamanan();
         $isi['siswa'] = $this->Model_siswa->dataSiswa();
 
 
@@ -261,6 +297,7 @@ class Dashboard extends CI_Controller
 
     public function hapus_all_peserta_ujian()
     {
+        $this->Model_keamanan->getKeamanan();
         $this->db->empty_table('a_siswa');
         $this->session->set_flashdata('info', '<div class="row">
         <div class="col-md mt-2">
@@ -278,6 +315,7 @@ class Dashboard extends CI_Controller
 
     public function upload_peserta_ujian()
     {
+        $this->Model_keamanan->getKeamanan();
         if ($this->input->post('submit', TRUE) == 'upload') {
             $config['upload_path']      = './temp_doc/';
             $config['allowed_types']    = 'xlsx|xls';
@@ -338,8 +376,9 @@ class Dashboard extends CI_Controller
 
     public function jadwal_ujian()
     {
-
+        $this->Model_keamanan->getKeamanan();
         $isi['ujian'] = $this->Model_ujian->jadwalUjian();
+
 
 
         $isi2['title'] = 'CBT | Administrator';
@@ -349,169 +388,14 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function akun_peserta()
+    public function hapus_all_jadwal()
     {
-
-        $isi['kelas'] = $this->Model_kelas->dataKelas();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_kelas_akun_siswa';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-    public function print_akun($id_kelas)
-    {
-
-        $isi['header'] = $this->Model_siswa->header_akun_siswa($id_kelas);
-        $isi['siswa'] = $this->Model_siswa->akun_siswa($id_kelas);
-
-        $isi['title'] = 'CBT | Administrator';
-        $this->load->view('Ujian/print_akun_siswa', $isi);
-    }
-
-    public function print_kartu($id_kelas)
-    {
-
-        $isi['header'] = $this->Model_siswa->header_akun_siswa($id_kelas);
-        $isi['siswa'] = $this->Model_siswa->akun_siswa($id_kelas);
-        $isi['title'] = 'CBT | Administrator';
-        $this->load->view('Ujian/print_kartu_siswa', $isi);
-    }
-
-    public function status_ujian()
-    {
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_status_ujian';
-        $isi['ujian_hari_ini'] = $this->Model_ujian->ujian_hari_ini();
-
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-    public function status_peserta_login()
-    {
-
-        $isi['status'] = $this->Model_ujian->statusPesertaLogin();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_status_peserta_login';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-    public function hapus_session_login($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete('cbt_sessions');
-        redirect('Dashboard/status_peserta_login');
-    }
-
-    public function refresh_token($id)
-    {
-        $id = $this->input->post('id');
-        $course = $this->input->post('course');
-        $name = $this->input->post('name');
-        $intro = $this->input->post('intro');
-        $introformat = $this->input->post('introformat');
-        $timeopen = $this->input->post('timeopen');
-        $timeclose = $this->input->post('timeclose');
-        $timelimit = $this->input->post('timelimit');
-        $overduehandling = $this->input->post('overduehandling');
-        $graceperiod = $this->input->post('graceperiod');
-        $preferredbehaviour = $this->input->post('preferredbehaviour');
-        $canredoquestions = $this->input->post('canredoquestions');
-        $attempts = $this->input->post('attempts');
-        $attemptonlast = $this->input->post('attemptonlast');
-        $grademethod = $this->input->post('grademethod');
-        $decimalpoints = $this->input->post('decimalpoints');
-        $questiondecimalpoints = $this->input->post('questiondecimalpoints');
-        $reviewattempt = $this->input->post('reviewattempt');
-        $reviewcorrectness = $this->input->post('reviewcorrectness');
-        $reviewmarks = $this->input->post('reviewmarks');
-        $reviewspecificfeedback = $this->input->post('reviewspecificfeedback');
-        $reviewgeneralfeedback = $this->input->post('reviewgeneralfeedback');
-        $reviewrightanswer = $this->input->post('reviewrightanswer');
-        $reviewoverallfeedback = $this->input->post('reviewoverallfeedback');
-        $questionsperpage = $this->input->post('questionsperpage');
-        $navmethod = $this->input->post('navmethod');
-        $shuffleanswers = $this->input->post('shuffleanswers');
-        $sumgrades = $this->input->post('sumgrades');
-        $grade = $this->input->post('grade');
-        $timecreated = $this->input->post('timecreated');
-        $timemodified = $this->input->post('timemodified');
-        $password = 'SAS' . rand(1111, 99999);
-        $subnet = $this->input->post('subnet');
-        $browsersecurity = $this->input->post('browsersecurity');
-        $delay1 = $this->input->post('delay1');
-        $delay2 = $this->input->post('delay2');
-        $showuserpicture = $this->input->post('showuserpicture');
-        $showblocks = $this->input->post('showblocks');
-        $completionattemptsexhausted = $this->input->post('completionattemptsexhausted');
-        $completionpass = $this->input->post('completionpass');
-        $allowofflineattempts = $this->input->post('allowofflineattempts');
-
-        $data = array(
-            'id' => $id,
-            'course' => $course,
-            'name' => $name,
-            'intro' => $intro,
-            'introformat' => $introformat,
-            'timeopen' => $timeopen,
-            'timeclose' => $timeclose,
-            'timelimit' => $timelimit,
-            'overduehandling' => $overduehandling,
-            'graceperiod' => $graceperiod,
-            'preferredbehaviour' => $preferredbehaviour,
-            'canredoquestions' => $canredoquestions,
-            'attempts' => $attempts,
-            'attemptonlast' => $attemptonlast,
-            'grademethod' => $grademethod,
-            'decimalpoints' => $decimalpoints,
-            'questiondecimalpoints' => $questiondecimalpoints,
-            'reviewattempt' => $reviewattempt,
-            'reviewcorrectness' => $reviewcorrectness,
-            'reviewmarks' => $reviewmarks,
-            'reviewspecificfeedback' => $reviewspecificfeedback,
-            'reviewgeneralfeedback' => $reviewgeneralfeedback,
-            'reviewrightanswer' => $reviewrightanswer,
-            'reviewoverallfeedback' => $reviewoverallfeedback,
-            'questionsperpage' => $questionsperpage,
-            'navmethod' => $navmethod,
-            'shuffleanswers' => $shuffleanswers,
-            'sumgrades' => $sumgrades,
-            'grade' => $grade,
-            'timecreated' => $timecreated,
-            'timemodified' => $timemodified,
-            'password' => $password,
-            'subnet' => $subnet,
-            'browsersecurity' => $browsersecurity,
-            'delay1' => $delay1,
-            'delay2' => $delay2,
-            'showuserpicture' => $showuserpicture,
-            'showblocks' => $showblocks,
-            'completionattemptsexhausted' => $completionattemptsexhausted,
-            'completionpass' => $completionpass,
-            'allowofflineattempts' => $allowofflineattempts
-        );
-        $this->db->where('id', $id);
-        $this->db->update('cbt_quiz', $data);
-        redirect('Dashboard/status_ujian');
-    }
-
-    public function hapus_all_peserta_login()
-    {
-        $this->db->empty_table('cbt_sessions');
-        $this->session->set_flashdata('info', '<div class="row">
+        $this->Model_keamanan->getKeamanan();
+        $this->db->empty_table('a_jadwal');
+        $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Data Login Peserta Ujian Berhasil Di Hapus</strong>
+                <strong>Data Jadwal Berhasil Di Hapus</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -519,62 +403,8 @@ class Dashboard extends CI_Controller
 
         </div>
         </div>');
-        redirect('Dashboard/status_peserta_login');
+        redirect('Dashboard/jadwal_ujian');
     }
-
-    public function status_peserta()
-    {
-
-        $isi['status'] = $this->Model_ujian->statusPeserta();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_status_peserta';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-    public function filter_status_peserta()
-    {
-
-        $isi['status'] = $this->Model_ujian->FilterstatusPeserta();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/filter_tampilan_status_peserta';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-
-
-    public function rekap_nilai()
-    {
-
-        $isi['rekap'] = $this->Model_ujian->rekap_nilai();
-
-
-        $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_rekap_nilai';
-        $this->load->view('templates/header', $isi2);
-        $this->load->view('tampilan_dashboard', $isi);
-        $this->load->view('templates/footer');
-    }
-
-    public function print_nilai($id_course)
-    {
-
-        $isi['header'] = $this->Model_ujian->print_nilai_header($id_course);
-        $isi['rekap'] = $this->Model_ujian->print_nilai_rekap($id_course);
-
-        $isi2['title'] = 'CBT | Administrator';
-        $this->load->view('Ujian/tampilan_print_nilai', $isi);
-    }
-
-
-
 
     public function logout()
     {
