@@ -5,6 +5,23 @@ require_once APPPATH . 'third_party/spout/src/Spout/Autoloader/autoload.php';
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
+/**
+ * Dashboard controller
+ *
+ * @property CI_DB_active_record $db
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property CI_Loader $load
+ * @property CI_Form_validation $form_validation
+ * @property Model_keamanan $Model_keamanan
+ * @property Model_jurusan $Model_jurusan
+ * @property Model_kelas $Model_kelas
+ * @property Model_siswa $Model_siswa
+ * @property Model_mapel $Model_mapel
+ * @property Model_ujian $Model_ujian
+ * @property Model_ruang $Model_ruang
+ * @property CI_Upload $upload
+ */
 class Dashboard extends CI_Controller
 {
     public function __construct()
@@ -21,6 +38,8 @@ class Dashboard extends CI_Controller
             'Model_ujian',
             'Model_ruang'
         ));
+        // Load common libraries used across controller methods
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -116,9 +135,9 @@ class Dashboard extends CI_Controller
                             $cells = $row->getCells();
 
                             $data = array(
-                                'id'              => $cells[0],
-                                'kode'     => $cells[1],
-                                'kelas'            => $cells[2]
+                                'id'   => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
+                                'kode' => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
+                                'kelas' => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null
                             );
                             array_push($save, $data);
                         }
@@ -126,7 +145,10 @@ class Dashboard extends CI_Controller
                     }
                     $this->Model_kelas->simpan($save);
                     $reader->close();
-                    unlink('temp_doc/' . $file['file_name']);
+                    $tmpPath = 'temp_doc/' . $file['file_name'];
+                    if (is_file($tmpPath)) {
+                        @unlink($tmpPath);
+                    }
                     $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -175,18 +197,31 @@ class Dashboard extends CI_Controller
     public function simpan_jadwal()
     {
         $this->Model_keamanan->getKeamanan();
-        $id_jadwal = rand(00000, 99990);
-        $id_mapel = $this->input->post('id_mapel');
-        $tanggal_mulai = $this->input->post('tanggal_mulai');
-        $waktu_mulai = $this->input->post('waktu_mulai');
-        $waktu_selesai = $this->input->post('waktu_selesai');
+        // Validate incoming form data (trim + required). Use XSS-cleaned inputs when reading.
+        $this->form_validation->set_rules('id_mapel', 'Mata Pelajaran', 'required|trim');
+        $this->form_validation->set_rules('tanggal_mulai', 'Tanggal Mulai', 'required|trim');
+        $this->form_validation->set_rules('waktu_mulai', 'Waktu Mulai', 'required|trim');
+        $this->form_validation->set_rules('waktu_selesai', 'Waktu Selesai', 'required|trim');
 
+        if ($this->form_validation->run() === FALSE) {
+            // Validation failed: preserve messages and redirect back to the form.
+            $errors = validation_errors();
+            $this->session->set_flashdata('pesan', '<div class="row"><div class="col-md mt-2"><div class="alert alert-danger alert-dismissible fade show" role="alert">' . $errors . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button></div></div></div>');
+            $id_mapel = $this->input->post('id_mapel', TRUE);
+            if (!empty($id_mapel)) {
+                redirect('Dashboard/buat_mapel_jadwal/' . $id_mapel);
+            }
+            redirect('Dashboard/mata_pelajaran');
+        }
+
+        // Safer unique id: timestamp + random suffix (reduces collision risk vs rand alone).
+        $id_jadwal = time() . mt_rand(1000, 9999);
         $data = array(
             'id_jadwal' => $id_jadwal,
-            'id_mapel' => $id_mapel,
-            'tanggal_mulai' => $tanggal_mulai,
-            'waktu_mulai' => $waktu_mulai,
-            'waktu_selesai' => $waktu_selesai
+            'id_mapel' => $this->input->post('id_mapel', TRUE),
+            'tanggal_mulai' => $this->input->post('tanggal_mulai', TRUE),
+            'waktu_mulai' => $this->input->post('waktu_mulai', TRUE),
+            'waktu_selesai' => $this->input->post('waktu_selesai', TRUE)
         );
 
         $this->db->insert('a_jadwal', $data);
@@ -249,9 +284,9 @@ class Dashboard extends CI_Controller
                             $cells = $row->getCells();
 
                             $data = array(
-                                'id_mapel'              => $cells[0],
-                                'id_kelas'     => $cells[1],
-                                'nama_mapel'            => $cells[2]
+                                'id_mapel'  => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
+                                'id_kelas'  => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
+                                'nama_mapel' => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null
                             );
                             array_push($save, $data);
                         }
@@ -259,7 +294,10 @@ class Dashboard extends CI_Controller
                     }
                     $this->Model_mapel->simpan($save);
                     $reader->close();
-                    unlink('temp_doc/' . $file['file_name']);
+                    $tmpPath = 'temp_doc/' . $file['file_name'];
+                    if (is_file($tmpPath)) {
+                        @unlink($tmpPath);
+                    }
                     $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -340,13 +378,13 @@ class Dashboard extends CI_Controller
                             $cells = $row->getCells();
 
                             $data = array(
-                                'id'              => $cells[0],
-                                'no_peserta'      => $cells[1],
-                                'nama_siswa'      => $cells[2],
-                                'kelas'           => $cells[3],
-                                'jurusan'         => $cells[4],
-                                'username'        => $cells[5],
-                                'password'        => $cells[6],
+                                'id'          => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
+                                'no_peserta'  => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
+                                'nama_siswa'  => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null,
+                                'kelas'       => isset($cells[3]) ? trim((string)$cells[3]->getValue()) : null,
+                                'jurusan'     => isset($cells[4]) ? trim((string)$cells[4]->getValue()) : null,
+                                'username'    => isset($cells[5]) ? trim((string)$cells[5]->getValue()) : null,
+                                'password'    => isset($cells[6]) ? trim((string)$cells[6]->getValue()) : null,
                             );
                             array_push($save, $data);
                         }
@@ -354,7 +392,10 @@ class Dashboard extends CI_Controller
                     }
                     $this->Model_siswa->simpanSiswa($save);
                     $reader->close();
-                    unlink('temp_doc/' . $file['file_name']);
+                    $tmpPath = 'temp_doc/' . $file['file_name'];
+                    if (is_file($tmpPath)) {
+                        @unlink($tmpPath);
+                    }
                     $this->session->set_flashdata('info', '
                     <div class="row">
                     <div class="col-md mt-2">
