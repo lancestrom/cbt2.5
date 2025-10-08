@@ -423,7 +423,7 @@ class Dashboard extends CI_Controller
 
 
         $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_ujian';
+        $isi['content'] = 'Master/tampilan_ujian';
         $this->load->view('templates/header', $isi2);
         $this->load->view('tampilan_dashboard', $isi);
         $this->load->view('templates/footer');
