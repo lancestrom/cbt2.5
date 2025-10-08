@@ -58,7 +58,7 @@
             Ujian
         </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- Nav Item - Pages Collapse Menu
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                 <i class="far fa-file-alt"></i>
@@ -74,7 +74,7 @@
                     <a class="collapse-item" href="<?= base_url() ?>Dashboard/rekap_nilai">Cetak Daftar Nilai</a>
                 </div>
             </div>
-        </li>
+        </li> -->
 
         <hr class="sidebar-divider">
         <!-- Heading -->
