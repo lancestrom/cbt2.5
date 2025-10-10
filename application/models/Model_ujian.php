@@ -16,4 +16,25 @@ ON a_jadwal.id_mapel=a_mapel.id_mapel;";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
+
+    public function uploadSoalID($id_jadwal)
+    {
+        $sql = "SELECT a_jadwal.id_jadwal,a_mapel.nama_mapel,a_kelas.kelas FROM `a_jadwal`
+INNER JOIN a_mapel
+ON a_jadwal.id_mapel=a_mapel.id_mapel
+INNER JOIN a_kelas
+ON a_mapel.id_kelas=a_kelas.id
+WHERE a_jadwal.id_jadwal='$id_jadwal';";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+    }
+
+    function simpan($data = array())
+    {
+        $jumlah = count($data);
+
+        if ($jumlah > 0) {
+            $this->db->insert_batch('a_soal', $data);
+        }
+    }
 }

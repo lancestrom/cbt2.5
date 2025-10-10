@@ -137,7 +137,8 @@ class Dashboard extends CI_Controller
                             $data = array(
                                 'id'   => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
                                 'kode' => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
-                                'kelas' => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null
+                                'kelas' => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null,
+                                'slug' => isset($cells[3]) ? trim((string)$cells[3]->getValue()) : null
                             );
                             array_push($save, $data);
                         }
@@ -149,21 +150,13 @@ class Dashboard extends CI_Controller
                     if (is_file($tmpPath)) {
                         @unlink($tmpPath);
                     }
-                    $this->session->set_flashdata('pesan', '<div class="row">
-        <div class="col-md mt-2">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Data Mapel Berhasil Di Tambah</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-        </div>
-        </div>');
+                    // Success message for kelas upload
+                    $this->session->set_flashdata('pesan', '<div class="row"><div class="col-md mt-2"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Data Kelas Berhasil Ditambahkan</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div></div>');
                     redirect('Dashboard/kelas');
                 }
             } else {
-                echo "Error :" . $this->upload->display_errors();
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger">Upload error: ' . strip_tags($this->upload->display_errors()) . '</div>');
+                redirect('Dashboard/kelas');
             }
         }
     }
@@ -188,7 +181,7 @@ class Dashboard extends CI_Controller
 
 
         $isi2['title'] = 'CBT | Administrator';
-        $isi['content'] = 'Ujian/tampilan_buat_jadwal';
+        $isi['content'] = 'Master/tampilan_buat_jadwal';
         $this->load->view('templates/header', $isi2);
         $this->load->view('tampilan_dashboard', $isi);
         $this->load->view('templates/footer');
@@ -214,8 +207,13 @@ class Dashboard extends CI_Controller
             redirect('Dashboard/mata_pelajaran');
         }
 
-        // Safer unique id: timestamp + random suffix (reduces collision risk vs rand alone).
-        $id_jadwal = time() . mt_rand(1000, 9999);
+        // Generate a robust unique id for jadwal. Prefer random_bytes when available.
+        try {
+            $id_jadwal = bin2hex(random_bytes(8)); // 16 hex chars
+        } catch (Exception $e) {
+            // Fallback to uniqid with more entropy
+            $id_jadwal = str_replace('.', '', uniqid('', true));
+        }
         $data = array(
             'id_jadwal' => $id_jadwal,
             'id_mapel' => $this->input->post('id_mapel', TRUE),
@@ -298,21 +296,12 @@ class Dashboard extends CI_Controller
                     if (is_file($tmpPath)) {
                         @unlink($tmpPath);
                     }
-                    $this->session->set_flashdata('pesan', '<div class="row">
-        <div class="col-md mt-2">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Data Mapel Berhasil Di Tambah</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-        </div>
-        </div>');
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success">Data Mata Pelajaran Berhasil Ditambahkan</div>');
                     redirect('Dashboard/mata_pelajaran');
                 }
             } else {
-                echo "Error :" . $this->upload->display_errors();
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger">Upload error: ' . strip_tags($this->upload->display_errors()) . '</div>');
+                redirect('Dashboard/mata_pelajaran');
             }
         }
     }
@@ -385,6 +374,7 @@ class Dashboard extends CI_Controller
                                 'jurusan'     => isset($cells[4]) ? trim((string)$cells[4]->getValue()) : null,
                                 'username'    => isset($cells[5]) ? trim((string)$cells[5]->getValue()) : null,
                                 'password'    => isset($cells[6]) ? trim((string)$cells[6]->getValue()) : null,
+                                'status'    => isset($cells[7]) ? trim((string)$cells[7]->getValue()) : null,
                             );
                             array_push($save, $data);
                         }
@@ -396,21 +386,12 @@ class Dashboard extends CI_Controller
                     if (is_file($tmpPath)) {
                         @unlink($tmpPath);
                     }
-                    $this->session->set_flashdata('info', '
-                    <div class="row">
-                    <div class="col-md mt-2">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Data Peserta Ujian Berhasil Di Tambah</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                    </div>');
+                    $this->session->set_flashdata('info', '<div class="alert alert-success">Data Peserta Ujian Berhasil Ditambahkan</div>');
                     redirect('Dashboard/siswa');
                 }
             } else {
-                echo "Error :" . $this->upload->display_errors();
+                $this->session->set_flashdata('info', '<div class="alert alert-danger">Upload error: ' . strip_tags($this->upload->display_errors()) . '</div>');
+                redirect('Dashboard/siswa');
             }
         }
     }
@@ -445,6 +426,77 @@ class Dashboard extends CI_Controller
         </div>
         </div>');
         redirect('Dashboard/jadwal_ujian');
+    }
+
+    public function upload_soal($id_jadwal)
+    {
+        $this->Model_keamanan->getKeamanan();
+        $isi['ujian'] = $this->Model_ujian->uploadSoalID($id_jadwal);
+
+        $isi2['title'] = 'CBT | Administrator';
+        $isi['content'] = 'Master/tampilan_upload_soal';
+        $this->load->view('templates/header', $isi2);
+        $this->load->view('tampilan_dashboard', $isi);
+        $this->load->view('templates/footer');
+    }
+
+    public function upload_soal_jadwal()
+    {
+        // protect the upload endpoint
+        $this->Model_keamanan->getKeamanan();
+        if ($this->input->post('submit', TRUE) == 'upload') {
+            $config['upload_path']      = './temp_doc/';
+            $config['allowed_types']    = 'xlsx|xls';
+            $config['file_name']        = 'doc' . time();
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('excel')) {
+                $file   = $this->upload->data();
+
+                $reader = ReaderEntityFactory::createXLSXReader();
+                $reader->open('temp_doc/' . $file['file_name']);
+
+
+                foreach ($reader->getSheetIterator() as $sheet) {
+                    $numRow = 1;
+                    $save   = array();
+                    foreach ($sheet->getRowIterator() as $row) {
+
+                        if ($numRow > 1) {
+
+                            $cells = $row->getCells();
+
+                            // Extract cell values safely (cast to string and trim)
+                            $data = array(
+                                'id_soal'   => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
+                                'id_jadwal' => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
+                                'soal'      => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null,
+                                'piA'       => isset($cells[3]) ? trim((string)$cells[3]->getValue()) : null,
+                                'piB'       => isset($cells[4]) ? trim((string)$cells[4]->getValue()) : null,
+                                'piC'       => isset($cells[5]) ? trim((string)$cells[5]->getValue()) : null,
+                                'piD'       => isset($cells[6]) ? trim((string)$cells[6]->getValue()) : null,
+                                'piE'       => isset($cells[7]) ? trim((string)$cells[7]->getValue()) : null,
+                                'kunci'     => isset($cells[8]) ? trim((string)$cells[8]->getValue()) : null,
+                            );
+                            array_push($save, $data);
+                        }
+                        $numRow++;
+                    }
+                    $this->Model_ujian->simpan($save);
+                    $reader->close();
+                    $tmpPath = 'temp_doc/' . $file['file_name'];
+                    if (is_file($tmpPath)) {
+                        @unlink($tmpPath);
+                    }
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-success">Soal berhasil diunggah</div>');
+                    redirect('Dashboard/jadwal_ujian');
+                }
+            } else {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger">Upload error: ' . strip_tags($this->upload->display_errors()) . '</div>');
+                redirect('Dashboard/jadwal_ujian');
+            }
+        }
     }
 
     public function logout()

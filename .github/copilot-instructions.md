@@ -1,79 +1,83 @@
 ## Quick context
 
-- This repository is a CodeIgniter (v2/3 style) PHP web app arranged in the standard CI layout: `application/`, `system/`, `assets/`, `vendor/`, and an SQL dump at `database/cbt25.sql`.
-- Primary runtime target is a LAMP stack (the workspace lives under XAMPP `htdocs` in this workspace). Expect Apache + PHP + MySQL when running locally.
+- Codebase: CodeIgniter (v2/3-style) PHP web app using the standard CI layout: `application/`, `system/`, `assets/`, `vendor/`. Schema dump: `database/cbt25.sql`.
+- Runtime: LAMP (Apache + PHP + MySQL). In this workspace the app is placed under XAMPP webroot: `htdocs/cbt2.5`.
 
-## High level architecture (big picture)
+## Big-picture architecture
 
-- Controllers: `application/controllers/` — entry points for HTTP requests. Example: `Dashboard.php` orchestrates most admin flows.
-- Models: `application/models/` — DB interactions and business logic. Model classes are prefixed with `Model_` (e.g. `Model_mapel`, `Model_siswa`).
-- Views: `application/views/` — HTML/templating. Views are composed using `templates/header`, `tampilan_dashboard`, and individual page fragments (e.g. `tampilan_siswa.php`).
-- System: `system/` contains the CodeIgniter core. Treat it as framework code — don't change unless you know CI internals.
-- Third-party: `application/third_party/spout/` used for Excel import via Box\Spout. The autoloader is required in `Dashboard.php`.
+- Controllers (`application/controllers/`) are HTTP entry points and orchestrate flows. `Dashboard.php` is the central admin controller.
+- Models (`application/models/`) perform DB queries and business logic. All model classes are prefixed with `Model_` (e.g. `Model_siswa`, `Model_mapel`).
+- Views (`application/views/`) contain templates and page fragments. Pages are assembled by loading `templates/header` (meta via `$isi2`), `tampilan_dashboard` (content via `$isi`) and `templates/footer`.
+- CI core lives in `system/` — treat it as framework code; avoid edits unless you understand CI internals.
 
-## Key conventions and idioms to follow
+## Project-specific conventions (high-value, concrete)
 
-- Controller pattern: controllers typically call `$this->Model_keamanan->getKeamanan();` at the top of methods to enforce auth. Search for this call to find protected endpoints.
-- Controllers populate two arrays before loading views: `$isi` (page data) and `$isi2` (meta like `title`). Then they call:
-
-  $this->load->view('templates/header', $isi2);
+- Auth guard: controller methods that require authentication call `$this->Model_keamanan->getKeamanan();` at the top. Search for this call to find protected endpoints.
+- Controller view pattern: controllers set two arrays before rendering:
+  - `$isi2` — meta (e.g. `title`) passed to `templates/header`
+  - `$isi` — page data passed to `tampilan_dashboard`
+    Then controllers load views:
+    $this->load->view('templates/header', $isi2);
   $this->load->view('tampilan_dashboard', $isi);
   $this->load->view('templates/footer');
+- Model names: always start with `Model_`. Load models in a controller constructor with `$this->load->model(array('Model_keamanan','Model_siswa', ...));` (see `Dashboard::__construct`).
+- Flash messages: session flashdata keys `pesan` and `info` store raw Bootstrap HTML strings. When updating UI, preserve that markup or update both producers and the views that render them.
+- DB naming: many tables use an `a_` prefix (e.g. `a_mapel`, `a_siswa`, `a_jadwal`). Use CI's query builder (`$this->db->insert`, `$this->db->where`, `$this->db->empty_table`).
 
-- Model names always start with `Model_`. Use `$this->load->model(array(...))` in the controller constructor (see `Dashboard::__construct`).
-- Flash messages: session flashdata keys used are `pesan` and `info`, and their values are raw HTML strings with Bootstrap alert markup (don't change these strings' structure unless updating front-end markup accordingly).
-- Database conventions: many tables have an `a_` prefix (for example `a_mapel`, `a_jadwal`, `a_kelas`, `a_siswa`). Use CI's query builder (`$this->db->insert`, `$this->db->empty_table`) for DB operations.
-- Excel import: imports write to `./temp_doc/` then call `unlink()` to remove files. Allowed upload types are `xlsx|xls` and Box\Spout is used to parse rows.
+## Integration points and I/O patterns
 
-## Files and directories you will frequently edit or inspect
+- Excel import: `application/third_party/spout/` (Box\Spout) is used. Controller code writes uploads to `temp_doc/`, parses rows, calls model `simpan` methods, and then `unlink()`s the temp file. Look for `ReaderEntityFactory` and `temp_doc` usage in `Dashboard.php`.
+- File uploads: use CI's `upload` library configuration in controller methods. Uploaded files commonly land under `temp_doc/` and `upload/excel/`.
+- Sessions & auth: `Model_keamanan` holds login/session logic; many controllers call it to verify permissions. Inspect `application/models/Model_keamanan.php` to see which session keys are required.
 
-- Controllers: `application/controllers/Dashboard.php` (central admin flows)
-- Models: `application/models/Model_*` (business logic and DB queries)
-- Views: `application/views/` and `application/views/Ujian/` for exam/jadwal related pages
-- Config: `application/config/` (database credentials, routes — edit `database.php` when changing DB connection)
-- SQL schema: `database/cbt25.sql` — import this in MySQL for a local dev DB
-- Third-party Excel reader: `application/third_party/spout/` and its `README.md`
+## How to run & debug locally (practical steps)
 
-## How to run locally (discoverable steps)
+1. Put the repo under your webroot (example here: `/Applications/XAMPP/xamppfiles/htdocs/cbt2.5`).
+2. Start Apache & MySQL (XAMPP). Import `database/cbt25.sql` into MySQL.
+3. Update DB credentials in `application/config/database.php`.
+4. Visit `http://localhost/cbt2.5/`.
 
-1. Ensure code is in your web root (here it lives under XAMPP `htdocs/cbt2.5`).
-2. Start Apache & MySQL (via XAMPP). Import `database/cbt25.sql` into MySQL (phpMyAdmin or mysql CLI).
-3. Update `application/config/database.php` with your DB credentials.
-4. Open the app at `http://localhost/cbt2.5/` (or the configured base URL).
+Debug tips:
 
-Note: there is no app-specific build step. PHP files are interpreted by the server at runtime.
+- Tail PHP/Apache logs (XAMPP control panel or `logs/`); CI also writes logs to `application/logs/`.
+- If a controller returns blank pages, enable CI error reporting in `index.php` / `application/config/config.php` and check `application/logs/`.
 
-## Common patterns and examples (copyable intent)
+## Code patterns & examples (concrete snippets to reuse)
 
-- Protect an endpoint: add `$this->Model_keamanan->getKeamanan();` at the top of the controller method.
-- Add a model: create `application/models/Model_new.php` and load with `$this->load->model('Model_new');` (or add to the array in the controller constructor).
-- Example: `simpan_jadwal()` in `Dashboard.php` shows a typical insert flow:
-  - gather inputs with `$this->input->post('field')`
-  - build `$data = array(...)` and call `$this->db->insert('a_jadwal', $data);`
-  - set flashdata with `$this->session->set_flashdata('pesan', '<div>...</div>')` and `redirect()` to the listing.
+- Protect endpoint example (any controller method):
+  $this->Model_keamanan->getKeamanan();
 
-## Integration points & external behavior to keep in mind
+- Typical insert (from `Dashboard::simpan_jadwal()`):
+  $data = array('id' => rand(00000,99990), 'field' => $this->input->post('field'));
+  $this->db->insert('a_jadwal', $data);
+  $this->session->set_flashdata('pesan', '<div class="alert">...</div>');
 
-- Excel imports: use Box\Spout (`ReaderEntityFactory::createXLSXReader()`), iterate sheets/rows — the code writes raw cell objects to arrays before passing them to model `simpan` methods.
-- File uploads use CI's `upload` library configured in the controller method and files are stored in `temp_doc/` before being removed.
-- Session-based auth: see `Model_keamanan` (inspect this model to understand login flow and session keys). Many controller methods rely on it.
+- Excel import pattern (search for `ReaderEntityFactory`):
+  - Upload file to `temp_doc/`
+  - Create reader `ReaderEntityFactory::createXLSXReader()`
+  - Iterate rows, map to arrays, call model save methods
+  - `unlink()` temp file
 
-## Safety and maintainability notes (observations you may act on)
+## Known maintenance notes (observed from code)
 
-- ID generation with `rand(00000, 99990)` (e.g. `simpan_jadwal`) may cause collisions; if adding new features, consider switching to auto-increment DB ids or UUIDs.
-- Input sanitization and validation are minimal/absent in many controllers. When adding user-input endpoints, add CI `form_validation` rules and avoid directly inserting raw `$this->input->post()` values.
-- Flashdata contains raw HTML. If changing front-end templating, update the alert markup and where flashdata is rendered.
+- ID generation: code uses `rand(00000, 99990)` in places — collision risk. Prefer DB auto-increment or UUIDs when adding features that need unique IDs.
+- Input validation is light in many controllers. New endpoints should add CI `form_validation` rules and sanitize `$this->input->post()` values before DB writes.
+- Flashdata values contain raw HTML alerts — any change to alert HTML requires updating producers and the templates that render them.
 
-## Quick search tips
+## Quick search queries (what to grep for)
 
-- Find protected endpoints: search for `getKeamanan(`
-- Find imports: search for `ReaderEntityFactory` or `temp_doc`
-- Find table operations: search for `$this->db->insert`, `$this->db->empty_table`
+- Protected endpoints: getKeamanan(
+- Excel import: ReaderEntityFactory|temp_doc
+- DB operations: $this->db->insert|$this->db->empty_table
 
-## When merging or changing templates
+## Files to inspect first when starting work
 
-- The UI is assembled through `templates/header`, `tampilan_dashboard`, and `templates/footer`. Keep the `title` value in `$isi2['title']` consistent when adding pages.
+- `application/controllers/Dashboard.php` — central flows, excel import, uploads
+- `application/models/Model_keamanan.php` — auth/session rules
+- `application/models/Model_*` — DB/business logic
+- `application/views/templates/header.php` and `application/views/tampilan_dashboard.php` — how pages are assembled
+- `application/config/database.php` and `application/config/routes.php` — environment and routing
 
 ---
 
-If any part above is unclear or you want this file to include code snippets for tests or a small checklist for PR reviewers, tell me which area to expand (auth flow, DB schema, Excel import, or view composition) and I will iterate.
+If anything above is unclear or you'd like this file expanded with runnable snippets (for imports, migrations, or a small smoke-test), tell me which area to expand and I'll iterate.
