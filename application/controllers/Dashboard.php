@@ -191,29 +191,29 @@ class Dashboard extends CI_Controller
     {
         $this->Model_keamanan->getKeamanan();
         // Validate incoming form data (trim + required). Use XSS-cleaned inputs when reading.
-        $this->form_validation->set_rules('id_mapel', 'Mata Pelajaran', 'required|trim');
-        $this->form_validation->set_rules('tanggal_mulai', 'Tanggal Mulai', 'required|trim');
-        $this->form_validation->set_rules('waktu_mulai', 'Waktu Mulai', 'required|trim');
-        $this->form_validation->set_rules('waktu_selesai', 'Waktu Selesai', 'required|trim');
+        // $this->form_validation->set_rules('id_mapel', 'Mata Pelajaran', 'required|trim');
+        // $this->form_validation->set_rules('tanggal_mulai', 'Tanggal Mulai', 'required|trim');
+        // $this->form_validation->set_rules('waktu_mulai', 'Waktu Mulai', 'required|trim');
+        // $this->form_validation->set_rules('waktu_selesai', 'Waktu Selesai', 'required|trim');
 
-        if ($this->form_validation->run() === FALSE) {
-            // Validation failed: preserve messages and redirect back to the form.
-            $errors = validation_errors();
-            $this->session->set_flashdata('pesan', '<div class="row"><div class="col-md mt-2"><div class="alert alert-danger alert-dismissible fade show" role="alert">' . $errors . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button></div></div></div>');
-            $id_mapel = $this->input->post('id_mapel', TRUE);
-            if (!empty($id_mapel)) {
-                redirect('Dashboard/buat_mapel_jadwal/' . $id_mapel);
-            }
-            redirect('Dashboard/mata_pelajaran');
-        }
+        // if ($this->form_validation->run() === FALSE) {
+        //     // Validation failed: preserve messages and redirect back to the form.
+        //     $errors = validation_errors();
+        //     $this->session->set_flashdata('pesan', '<div class="row"><div class="col-md mt-2"><div class="alert alert-danger alert-dismissible fade show" role="alert">' . $errors . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button></div></div></div>');
+        //     $id_mapel = $this->input->post('id_mapel', TRUE);
+        //     if (!empty($id_mapel)) {
+        //         redirect('Dashboard/buat_mapel_jadwal/' . $id_mapel);
+        //     }
+        //     redirect('Dashboard/mata_pelajaran');
+        // }
 
-        // Generate a robust unique id for jadwal. Prefer random_bytes when available.
-        try {
-            $id_jadwal = bin2hex(random_bytes(8)); // 16 hex chars
-        } catch (Exception $e) {
-            // Fallback to uniqid with more entropy
-            $id_jadwal = str_replace('.', '', uniqid('', true));
-        }
+        // // Generate a robust unique id for jadwal. Prefer random_bytes when available.
+        // try {
+        //     $id_jadwal = bin2hex(random_bytes(8)); // 16 hex chars
+        // } catch (Exception $e) {
+        //     // Fallback to uniqid with more entropy
+        //     $id_jadwal = str_replace('.', '', uniqid('', true));
+        // }
         $data = array(
             'id_jadwal' => rand(11111111, 99999999),
             'id_mapel' => $this->input->post('id_mapel', TRUE),
