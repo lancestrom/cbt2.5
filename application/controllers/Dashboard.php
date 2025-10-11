@@ -443,7 +443,6 @@ class Dashboard extends CI_Controller
     public function upload_soal_jadwal()
     {
         // protect the upload endpoint
-        $this->Model_keamanan->getKeamanan();
         if ($this->input->post('submit', TRUE) == 'upload') {
             $config['upload_path']      = './temp_doc/';
             $config['allowed_types']    = 'xlsx|xls';
@@ -472,11 +471,11 @@ class Dashboard extends CI_Controller
                                 'id_soal'   => isset($cells[0]) ? trim((string)$cells[0]->getValue()) : null,
                                 'id_jadwal' => isset($cells[1]) ? trim((string)$cells[1]->getValue()) : null,
                                 'soal'      => isset($cells[2]) ? trim((string)$cells[2]->getValue()) : null,
-                                'piA'       => isset($cells[3]) ? trim((string)$cells[3]->getValue()) : null,
-                                'piB'       => isset($cells[4]) ? trim((string)$cells[4]->getValue()) : null,
-                                'piC'       => isset($cells[5]) ? trim((string)$cells[5]->getValue()) : null,
-                                'piD'       => isset($cells[6]) ? trim((string)$cells[6]->getValue()) : null,
-                                'piE'       => isset($cells[7]) ? trim((string)$cells[7]->getValue()) : null,
+                                'pilA'       => isset($cells[3]) ? trim((string)$cells[3]->getValue()) : null,
+                                'pilB'       => isset($cells[4]) ? trim((string)$cells[4]->getValue()) : null,
+                                'pilC'       => isset($cells[5]) ? trim((string)$cells[5]->getValue()) : null,
+                                'pilD'       => isset($cells[6]) ? trim((string)$cells[6]->getValue()) : null,
+                                'pilE'       => isset($cells[7]) ? trim((string)$cells[7]->getValue()) : null,
                                 'kunci'     => isset($cells[8]) ? trim((string)$cells[8]->getValue()) : null,
                             );
                             array_push($save, $data);
@@ -497,6 +496,19 @@ class Dashboard extends CI_Controller
                 redirect('Dashboard/jadwal_ujian');
             }
         }
+    }
+
+    public function detail_soal($id_jadwal)
+    {
+        $this->Model_keamanan->getKeamanan();
+        $isi['header'] = $this->Model_ujian->detail_soal($id_jadwal);
+        $isi['soal'] = $this->Model_ujian->data_soal($id_jadwal);
+
+        $isi2['title'] = 'CBT | Administrator';
+        $isi['content'] = 'Master/tampilan_detail_soal';
+        $this->load->view('templates/header', $isi2);
+        $this->load->view('tampilan_dashboard', $isi);
+        $this->load->view('templates/footer');
     }
 
     public function logout()
