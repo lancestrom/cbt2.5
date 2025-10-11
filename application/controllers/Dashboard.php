@@ -215,7 +215,7 @@ class Dashboard extends CI_Controller
             $id_jadwal = str_replace('.', '', uniqid('', true));
         }
         $data = array(
-            'id_jadwal' => $id_jadwal,
+            'id_jadwal' => rand(11111111, 99999999),
             'id_mapel' => $this->input->post('id_mapel', TRUE),
             'tanggal_mulai' => $this->input->post('tanggal_mulai', TRUE),
             'waktu_mulai' => $this->input->post('waktu_mulai', TRUE),
@@ -241,6 +241,9 @@ class Dashboard extends CI_Controller
     {
         $this->Model_keamanan->getKeamanan();
         $this->db->empty_table('a_mapel');
+        $this->db->empty_table('a_jadwal');
+        $this->db->empty_table('soal');
+
         $this->session->set_flashdata('pesan', '<div class="row">
         <div class="col-md mt-2">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -460,6 +463,7 @@ class Dashboard extends CI_Controller
                 foreach ($reader->getSheetIterator() as $sheet) {
                     $numRow = 1;
                     $save   = array();
+                    $id_random = rand(11111111, 99999999);
                     foreach ($sheet->getRowIterator() as $row) {
 
                         if ($numRow > 1) {
