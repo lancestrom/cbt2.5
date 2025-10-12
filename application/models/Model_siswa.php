@@ -10,9 +10,6 @@ class Model_siswa extends CI_Model
         return $query->row()->siswa;
     }
 
-
-
-
     public function dataSiswaX()
     {
         $sql = "SELECT a_kelas.kelas,count(a_siswa.nama_siswa) AS jumlah_siswa FROM a_kelas
@@ -56,117 +53,14 @@ order by a_siswa.id;";
         return $query->result_array();
     }
 
-    public function dataSiswaMoodle()
+    public function dataSiswaID($sess)
     {
-        $sql = "SELECT *,
-IF(suspended=0,'AKTIF','TIDAK AKTIF') AS status
-FROM `cbt_user`
-WHERE id NOT IN (1,2) AND suspended  NOT IN (1) AND firstname not IN('ADMINISTRATOR')";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function dataSiswaMoodleBlock()
-    {
-        $sql = "SELECT *,
-IF(suspended=0,'AKTIF','TIDAK AKTIF') AS status
-FROM `cbt_user`
-WHERE id NOT IN (1,2) AND suspended NOT IN (0);";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function header_akun_siswa($id_kelas)
-    {
-        $sql = "SELECT a_siswa.*,a_kelas.*,a_jurusan.*,a_kelas.kelas AS nama_kelas FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.kelas='$id_kelas';";
+        $sql = "SELECT a_siswa.id,a_siswa.nama_siswa,a_kelas.kelas,a_siswa.username,a_siswa.password,a_siswa.level FROM `a_siswa`
+INNER JOIN a_kelas
+ON a_siswa.kelas=a_kelas.slug
+WHERE a_siswa.username='$sess';";
         $query = $this->db->query($sql);
         return $query->row_array();
-    }
-    public function akun_siswa($id_kelas)
-    {
-        $sql = "SELECT a_siswa.*,a_kelas.*,a_jurusan.*,a_kelas.kelas AS nama_kelas FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.kelas='$id_kelas';";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function dataSiswaAKL()
-    {
-        $sql = "SELECT * FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.jurusan LIKE '%akl%';";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-
-
-    public function dataSiswaBDP()
-    {
-        $sql = "SELECT * FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.jurusan LIKE '%pm%';";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-
-
-    public function dataSiswaOTKP()
-    {
-        $sql = "SELECT * FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.jurusan LIKE '%mplb%';";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-
-
-    public function dataSiswaTKJ()
-    {
-        $sql = "SELECT * FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.jurusan LIKE '%tjkt%'
-                ORDER BY a_siswa.id ASC;";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-
-
-    public function dataSiswaDKV()
-    {
-        $sql = "SELECT * FROM `a_siswa`
-                INNER JOIN a_kelas
-                on a_siswa.kelas=a_kelas.id
-                INNER JOIN a_jurusan
-                ON a_siswa.jurusan=a_jurusan.kode
-                WHERE a_siswa.jurusan LIKE '%dkv%'
-				ORDER BY a_siswa.id ASC;";
-        $query = $this->db->query($sql);
-        return $query->result_array();
     }
 
 

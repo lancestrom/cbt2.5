@@ -65,6 +65,7 @@ class Login extends CI_Controller
                 'level' => $user->level
             );
             $this->session->set_userdata($sess_data);
+            $this->session->set_userdata('username', $user->username);
         } else {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Username dan Password salah<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             redirect('/');
@@ -82,8 +83,6 @@ class Login extends CI_Controller
         } elseif ($this->session->userdata('level') == 'admintkj') {
             redirect('Dashboard_tkj');
         } elseif ($this->session->userdata('level') == 'admindkv') {
-            redirect('Dashboard_dkv');
-        } elseif ($this->session->userdata('level') == 'siswa') {
             redirect('Dashboard_dkv');
         }
     }
