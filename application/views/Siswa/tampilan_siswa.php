@@ -9,7 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>CBT SMK TUNAS HARATPAN</title>
+    <link rel="icon" type="image/png" href="https://smkth-jakbar.com/assets/images/logo.png" />
 </head>
 
 <body>
@@ -17,14 +18,56 @@
         <div class="row">
             <div class="col-md mt-4">
                 <div class="card">
-                    <div class="card-body">
-                        <h4><?= $siswa['nama_siswa'] ?> (<?= $siswa['kelas'] ?>)
+                    <div class="card-body bg-primary text-white">
+                        <h4><?= $siswa['nama_siswa'] ?> <br> <?= $siswa['kelas'] ?>
                         </h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Handle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <!-- Optional JavaScript; choose one of the two! -->

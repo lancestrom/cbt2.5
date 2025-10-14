@@ -4,57 +4,57 @@
 
 This is a PHP-based web application, likely using CodeIgniter (see `system/` and `application/` structure), for computer-based testing (CBT). The architecture is MVC, with controllers, models, and views organized under `application/`.
 
-## Key Directories & Files
+```markdown
+# Copilot instructions — cbt2.5 (CodeIgniter PHP app)
 
-- `application/controllers/`: Main controllers (e.g., `Dashboard.php`, `Login.php`, `Siswa_login.php`, `Welcome.php`).
-- `application/models/`: Data access and business logic (e.g., `Model_siswa.php`, `Model_ujian.php`).
-- `application/views/`: UI templates, organized by feature (e.g., `tampilan_dashboard.php`, `tampilan_login.php`).
-- `application/config/`: Configuration files (e.g., `config.php`, `database.php`, `routes.php`).
-- `system/`: Core framework files (do not modify unless extending framework behavior).
-- `assets/`, `login/`, `siswa/`: Static files (CSS, JS, images) for different user roles and UI themes.
-- `upload/`: File uploads, including exam data and images.
-- `application/third_party/spout/`: External PHP library for spreadsheet import/export (see its `README.md`).
+This file gives focused, discoverable knowledge for an AI code agent to be productive quickly.
 
-## Developer Workflows
+Key facts
 
-- **No build step required**: PHP files are interpreted directly. Place new code in the appropriate MVC folder.
-- **Testing**: No automated test suite detected. Manual browser testing is standard. For Spout library, run `phpunit` in its directory for library tests.
-- **Debugging**: Use browser dev tools and PHP error logs (`application/logs/`).
-- **Database**: SQL schema in `database/cbt25.sql`. Update this file for schema changes.
+- Codebase is a CodeIgniter-style MVC app under `application/` with the framework in `system/` and a web entry at `index.php`.
+- Database schema: `database/cbt25.sql`. Many controllers/models expect a MySQL/MariaDB connection configured in `application/config/database.php`.
+- No build step. Run under a PHP web server (XAMPP, php -S, or Apache). Static assets live in `assets/`, `login/`, and `siswa/`.
 
-## Project-Specific Patterns
+Important locations (examples)
 
-- **MVC conventions**: Controllers load models and views explicitly. Example:
-  ```php
-  $this->load->model('Model_siswa');
-  $this->load->view('tampilan_siswa', $data);
-  ```
-- **Role-based UI**: Separate static assets and views for admin, siswa (student), and login flows.
-- **Excel/CSV Import/Export**: Use Spout library (`application/third_party/spout/`) for handling large spreadsheet files efficiently.
-- **Configuration**: All app config in `application/config/`. Use `routes.php` for URL routing.
-- **Uploads**: Store exam images and Excel files in `upload/` subfolders. Reference these paths in code.
+- Controllers: `application/controllers/` — e.g. `Login.php`, `Siswa_login.php`, `Dashboard.php`, `Dashboard_siswa.php`.
+- Models: `application/models/` — prefixed `Model_` (e.g. `Model_siswa.php`, `Model_ujian.php`). Models are loaded with `$this->load->model('Model_siswa');`.
+- Views: `application/views/` — many view files use the `tampilan_` prefix (e.g. `tampilan_dashboard.php`, `tampilan_login.php`).
+- Config: `application/config/config.php`, `application/config/database.php`, `application/config/routes.php`.
+- Uploads: `upload/excel/`, `upload/soal_gambar/` — code expects these paths for import and media files.
+- Third-party libs: `application/third_party/spout/` (spreadsheet import/export). See its `README.md` for phpunit tests.
 
-## Integration Points
+What to change (rules for agents)
 
-- **Spout**: For spreadsheet operations, see its documentation and `README.md`.
-- **Composer**: If adding new PHP libraries, update `composer.json` and run `composer install`.
+- Do not modify files in `system/` unless you are intentionally extending CI core behavior.
+- Follow the naming patterns: controllers in PascalCase, models prefixed `Model_`, views often prefixed `tampilan_`.
+- When adding features: create Controller → Model (if DB access) → View → register route in `application/config/routes.php` → add static files under `assets/` or role-specific folders.
+- Database changes must be reflected in `database/cbt25.sql` and the corresponding model queries.
 
-## Conventions & Gotchas
+Debugging & local run notes
 
-- **Do not edit files in `system/` unless extending CodeIgniter core.**
-- **Keep uploads and static assets organized by user role and feature.**
-- **Manual testing is the norm; add tests if introducing critical logic.**
-- **Database changes require updating both SQL and relevant models.**
+- Run under XAMPP (this repo sits in htdocs) or with `php -S localhost:8000` pointing to project root and ensure PHP's mysqli is available.
+- Check runtime errors and logs at `application/logs/`. Session settings are in `application/config/config.php` (verify `sess_save_path`).
 
-## Example: Adding a New Feature
+Patterns and gotchas (from the codebase)
 
-1. Create a controller in `application/controllers/`.
+- Role-based UI: admin vs siswa (student) flows are separated into different view/asset folders — reuse those conventions when adding UI.
+- File uploads and spreadsheet imports use `upload/` subfolders and the Spout library — prefer Spout for large Excel files to avoid memory issues.
+- Controllers often directly access `$this->db` and models; business logic is mixed between models and controllers in places — search for shared helpers in `application/helpers/`.
+
+Integration points
+
+- Spout for Excel: `application/third_party/spout/` (import/export). Run tests with phpunit inside that folder if needed.
+- Composer is present (`composer.json`). If you add external packages, update composer and commit `composer.lock`.
+
+Examples to reference while coding
+
+- Loading a model and view: `application/controllers/Siswa_login.php` (look for `$this->load->model` / `$this->load->view`).
+- Database schema updates: `database/cbt25.sql` contains the canonical schema to update when adding fields/tables.
+
+If something is unclear
+
+- Point to a specific controller/model/view and ask for examples to modify. I will open those files and produce a minimal, runnable patch.
+```
+
 2. Add a model in `application/models/` if needed.
-3. Create a view in `application/views/`.
-4. Update `application/config/routes.php` for new URLs.
-5. Add static assets in the appropriate folder.
-
----
-
-For questions about Spout, see `application/third_party/spout/README.md`.
-For framework details, refer to CodeIgniter documentation.

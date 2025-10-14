@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>CBT SMK TUNAS HARATPAN</title>
-    <link rel="icon" href="https://smkth-jakbar.com/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="https://smkth-jakbar.com/assets/images/logo.png" />
     <!-- Custom fonts for this template-->
     <link href="<?= base_url() ?>assets/siswa/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
