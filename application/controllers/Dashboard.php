@@ -214,6 +214,8 @@ class Dashboard extends CI_Controller
         redirect('Dashboard/mata_pelajaran');
     }
 
+
+
     public function hapus_all_mata_pelajaran()
     {
         $this->Model_keamanan->getKeamanan();
@@ -492,6 +494,43 @@ class Dashboard extends CI_Controller
         $this->load->view('tampilan_dashboard', $isi);
         $this->load->view('templates/footer');
     }
+
+    public function edit_jadwal($id_jadwal)
+    {
+        $this->Model_keamanan->getKeamanan();
+        $isi['mapel'] = $this->Model_ujian->edit_jadwal_id($id_jadwal);
+
+        $isi2['title'] = 'CBT | Administrator';
+        $isi['content'] = 'Master/tampilan_edit_jadwal';
+        $this->load->view('templates/header', $isi2);
+        $this->load->view('tampilan_dashboard', $isi);
+        $this->load->view('templates/footer');
+    }
+
+    public function simpan_edit_jadwal()
+    {
+        $this->Model_keamanan->getKeamanan();
+
+        $id_jadwal = $this->input->post('id_jadwal', TRUE);
+        $id_mapel = $this->input->post('id_mapel', TRUE);
+        $tanggal_mulai = $this->input->post('tanggal_mulai', TRUE);
+        $waktu_mulai = $this->input->post('waktu_mulai', TRUE);
+        $waktu_selesal = $this->input->post('waktu_selesai', TRUE);
+
+        $data = array(
+            'id_jadwal' =>  $id_jadwal,
+            'id_mapel' => $id_mapel,
+            'tanggal_mulai' => $tanggal_mulai,
+            'waktu_mulai' => $waktu_mulai,
+            'waktu_selesai' => $waktu_selesal
+        );
+
+        $this->db->where('id_jadwal', $id_jadwal);
+        $this->db->update('a_jadwal', $data);
+        redirect('Dashboard/jadwal_ujian');
+    }
+
+
 
     public function logout()
     {

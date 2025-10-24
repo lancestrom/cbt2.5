@@ -1,81 +1,73 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <title>CBT SMK TUNAS HARATPAN</title>
-    <link rel="icon" type="image/png" href="https://smkth-jakbar.com/assets/images/logo.png" />
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md mt-4">
-                <div class="card">
-                    <div class="card-body bg-primary text-white">
-                        <h4><?= $siswa['nama_siswa'] ?> <br> <?= $siswa['kelas'] ?>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md mt-4">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-striped bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md mt-4">
+            <div class="card">
+                <div class="card-body bg-primary text-white">
+                    <h4><?= $siswa['nama_siswa'] ?> <br> <?= $siswa['kelas'] ?>
+                    </h4>
                 </div>
             </div>
         </div>
     </div>
 
 
+    <div class="row mb-2 mt-2">
+        <div class="col-md">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="table-responsive">
+                            <table class="table table-striped table-bordered text-center text-uppercase font-weight-bolder" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>NAMA MAPEL</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($ujian as $row) {
+                                        ?>
+                                            <td class="text-center"><?php echo $no++; ?></td>
+                                            <td><?= $row['nama_mapel']; ?></td>
+                                            <td>
+                                                <h5>
+                                                    <a class="btn btn-primary btn-sm" href="<?= base_url() ?>Dashboard_siswa/ujian_siswa/<?= $row['id_jadwal']; ?>">MULAI</a>
+                                                </h5>
+                                            </td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div> -->
+                    <div class="row">
+                        <?php if (!empty($ujian)): ?>
+                            <?php foreach ($ujian as $row): ?>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <?= htmlspecialchars($row['nama_mapel'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                                                <?php if (!empty($row['durasi'])): ?>
+                                                    <div class="small text-muted">Durasi: <?= htmlspecialchars($row['durasi'], ENT_QUOTES, 'UTF-8'); ?> menit</div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div>
+                                                <a class="btn btn-primary btn-sm" href="<?= base_url('Dashboard_siswa/ujian_siswa/' . $row['id_jadwal']) ?>">MULAI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="col-12">Tidak ada ujian tersedia.</div>
+                        <?php endif; ?>
+                    </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-</body>
-
-</html>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

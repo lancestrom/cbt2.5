@@ -57,6 +57,7 @@
                                     <td>
                                         <h5 class="text-center">
                                             <a class="btn btn-primary btn-sm" href="<?= base_url() ?>Dashboard/upload_soal/<?= $row['id_jadwal']; ?>">UPLOAD</a>
+                                            <a class="btn btn-danger btn-sm" href="<?= base_url() ?>Dashboard/edit_jadwal/<?= $row['id_jadwal']; ?>">EDIT</a>
                                             <a class="btn btn-success btn-sm" href="<?= base_url() ?>Dashboard/detail_soal/<?= $row['id_jadwal']; ?>">DETAIL</a>
                                         </h5>
                                     </td>
