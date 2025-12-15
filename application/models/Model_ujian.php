@@ -100,6 +100,47 @@ WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
         return $query->result_array();
     }
 
+    public function soal_ujian_id_perkelas($id_jadwal, $sess)
+    {
+        $sql = "SELECT concat(soal.id_soal,a_jadwal.id_jadwal,a_mapel.id_mapel,a_kelas.id) AS id_ujian, a_mapel.nama_mapel, a_jadwal.tanggal_mulai,a_jadwal.waktu_mulai,a_jadwal.waktu_selesai,soal.soal,soal.pilA,soal.pilB,soal.pilC,soal.pilD,soal.pilE,soal.kunci FROM `soal`
+INNER JOIN a_jadwal
+ON soal.id_jadwal=a_jadwal.id_jadwal
+INNER JOIN a_mapel
+ON a_jadwal.id_mapel=a_mapel.id_mapel
+INNER JOIN a_kelas
+ON a_mapel.id_kelas=a_kelas.id
+INNER JOIN a_siswa
+ON a_siswa.kelas=a_kelas.slug
+WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+
+    public function soal_ujian_id_username($id_jadwal, $sess)
+    {
+        $sql = "SELECT a_jadwal.id_jadwal,a_jadwal.id_mapel,jadwal_soal.id_bank_soal,soal.id_soal,a_siswa.username,a_mapel.nama_mapel,
+soal.id_soal, soal.soal,soal.pilA,soal.pilB,soal.pilC,soal.pilD,soal.pilE,soal.kunci
+FROM `jadwal_soal`
+INNER JOIN a_jadwal
+ON jadwal_soal.id_jadwal=a_jadwal.id_jadwal
+INNER JOIN a_mapel
+ON a_jadwal.id_mapel=a_mapel.id_mapel
+INNER JOIN bank_soal
+ON jadwal_soal.id_bank_soal=bank_soal.id_bank_soal
+INNER JOIN soal
+ON bank_soal.id_bank_soal=soal.id_bank_soal
+INNER JOIN a_kelas
+ON a_mapel.id_kelas=a_kelas.id
+INNER JOIN a_siswa
+ON a_kelas.slug=a_siswa.kelas
+WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+
+
 
     function simpan($data = array())
     {

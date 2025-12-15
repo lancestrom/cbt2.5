@@ -22,11 +22,43 @@ class Dashboard_siswa extends CI_Controller
     {
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
+
         $isi['siswa'] = $this->Model_ujian->header_ujian_id($id_jadwal, $sess);
-        $isi['ujian'] = $this->Model_ujian->soal_ujian_id($id_jadwal, $sess);
+        // $isi['ujian'] = $this->Model_ujian->soal_ujian_id($id_jadwal, $sess);
+        $isi['soal'] = $this->Model_ujian->soal_ujian_id_username($id_jadwal, $sess);
 
         $this->load->view('Siswa/templates/header');
         $this->load->view('Siswa/tampilan_soal_ujian', $isi);
         $this->load->view('Siswa/templates/footer');
+    }
+
+    public function simpan_jawaban()
+    {
+        // expect answers as array: jawaban[<id_soal>] = 'A'|'B'|...
+        $jawaban = $this->input->post('jawaban');
+        $username = $this->session->userdata('username');
+
+
+        if (!empty($jawaban) && is_array($jawaban)) {
+            $batch = array();
+            foreach ($jawaban as $id_soal => $pil) {
+                // sanitize basic
+                $id_soal = intval($id_soal);
+                $pil = substr($this->db->escape_str($pil), 0, 1);
+                $batch[] = array(
+                    'username' => $username,
+                    'soal_id' => $id_soal,
+                    'jawaban' => $pil,
+
+                );
+            }
+            if (count($batch) > 0) {
+                $this->db->insert_batch('siswa_jawab', $batch);
+            }
+        }
+
+        // keep previous behaviour: destroy session and redirect to home
+        $this->session->sess_destroy();
+        redirect('/');
     }
 }
