@@ -61,4 +61,10 @@ class Dashboard_siswa extends CI_Controller
         $this->session->sess_destroy();
         redirect('/');
     }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('/');
+    }
 }
