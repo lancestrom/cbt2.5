@@ -10,8 +10,9 @@ class Dashboard_siswa extends CI_Controller
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
         $jadwal = date('Y-m-d');
+        $waktu =  date('H:i:s');
         $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
-        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal);
+        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal, $waktu);
 
         $this->load->view('Siswa/templates/header');
         $this->load->view('Siswa/tampilan_siswa', $isi);

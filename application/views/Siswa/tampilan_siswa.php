@@ -7,6 +7,7 @@
                     </h4>
                     <h4><?= $siswa['kelas'] ?>
                     </h4>
+
                     <h5>
                         <a class="btn btn-danger btn-sm text-uppercase font-weight-bolder"
                             href="<?= base_url() ?>Dashboard_siswa/logout">Logout</a>
@@ -50,27 +51,27 @@
                         </div> -->
                     <div class="row">
                         <?php if (!empty($ujian)): ?>
-                        <?php foreach ($ujian as $row): ?>
-                        <div class="col-md-6 mb-3">
-                            <div class="card">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <?= htmlspecialchars($row['nama_mapel'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                                        <?php if (!empty($row['durasi'])): ?>
-                                        <div class="small text-muted">Durasi:
-                                            <?= htmlspecialchars($row['durasi'], ENT_QUOTES, 'UTF-8'); ?> menit</div>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div>
-                                        <a class="btn btn-primary btn-sm"
-                                            href="<?= base_url('Dashboard_siswa/ujian_siswa/' . $row['id_jadwal']) ?>">MULAI</a>
+                            <?php foreach ($ujian as $row): ?>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <?= htmlspecialchars($row['nama_mapel'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                                                <?php if (!empty($row['durasi'])): ?>
+                                                    <div class="small text-muted">Durasi:
+                                                        <?= htmlspecialchars($row['durasi'], ENT_QUOTES, 'UTF-8'); ?> menit</div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div>
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="<?= base_url('Dashboard_siswa/ujian_siswa/' . $row['id_jadwal']) ?>">MULAI</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
                         <?php else: ?>
-                        <div class="col-12">Tidak ada ujian tersedia.</div>
+                            <div class="col-12">Tidak ada ujian tersedia.</div>
                         <?php endif; ?>
                     </div>
 
