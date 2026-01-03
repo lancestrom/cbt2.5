@@ -39,32 +39,37 @@
                                                     <!-- answer inputs named as array keyed by soal id -->
                                                     <?php $soal_id = isset($row['id_soal']) ? $row['id_soal'] : $idx; ?>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="jawaban[<?= $soal_id ?>]"
-                                                            value="A" id="q<?= $soal_id ?>a">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="jawaban[<?= $soal_id ?>]" value="A"
+                                                            id="q<?= $soal_id ?>a">
                                                         <label class="form-check-label" for="q<?= $soal_id ?>a">A.
                                                             <?= $row['pilA'] ?></label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="jawaban[<?= $soal_id ?>]"
-                                                            value="B" id="q<?= $soal_id ?>b">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="jawaban[<?= $soal_id ?>]" value="B"
+                                                            id="q<?= $soal_id ?>b">
                                                         <label class="form-check-label" for="q<?= $soal_id ?>b">B.
                                                             <?= $row['pilB'] ?></label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="jawaban[<?= $soal_id ?>]"
-                                                            value="C" id="q<?= $soal_id ?>c">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="jawaban[<?= $soal_id ?>]" value="C"
+                                                            id="q<?= $soal_id ?>c">
                                                         <label class="form-check-label" for="q<?= $soal_id ?>c">C.
                                                             <?= $row['pilC'] ?></label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="jawaban[<?= $soal_id ?>]"
-                                                            value="D" id="q<?= $soal_id ?>d">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="jawaban[<?= $soal_id ?>]" value="D"
+                                                            id="q<?= $soal_id ?>d">
                                                         <label class="form-check-label" for="q<?= $soal_id ?>d">D.
                                                             <?= $row['pilD'] ?></label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="jawaban[<?= $soal_id ?>]"
-                                                            value="E" id="q<?= $soal_id ?>e">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="jawaban[<?= $soal_id ?>]" value="E"
+                                                            id="q<?= $soal_id ?>e">
                                                         <label class="form-check-label" for="q<?= $soal_id ?>e">E.
                                                             <?= $row['pilE'] ?></label>
                                                     </div>

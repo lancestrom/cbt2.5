@@ -8,5 +8,7 @@ class Model_login_siswa extends CI_Model
         $this->db->where("username", $username);
         $this->db->where("password", $password);
         return $this->db->get('a_siswa');
+
+        
     }
 }

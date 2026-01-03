@@ -59,12 +59,17 @@ class Dashboard_siswa extends CI_Controller
         }
 
         // keep previous behaviour: destroy session and redirect to home
+
+        $sess = $this->session->userdata('username');
+        $this->db->delete('siswa_login', array('username' => $sess));
         $this->session->sess_destroy();
         redirect('/');
     }
 
     public function logout()
     {
+        $sess = $this->session->userdata('username');
+        $this->db->delete('siswa_login', array('username' => $sess));
         $this->session->sess_destroy();
         redirect('/');
     }

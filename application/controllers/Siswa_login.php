@@ -18,6 +18,11 @@ class Siswa_login extends CI_Controller
         $this->load->model('Model_login_siswa');
         $cek = $this->Model_login_siswa->cek_login($username, $password);
 
+        $this->db->insert('siswa_login', [
+            'username' => $this->input->post('username'),
+            'login_time' => date('Y-m-d H:i:s'),
+        ]);
+
         if ($cek->num_rows() > 0) {
             foreach ($cek->result() as $ck) {
                 $sess_data['username'] = $ck->username;
