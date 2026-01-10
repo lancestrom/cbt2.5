@@ -46,7 +46,7 @@ WHERE id_jadwal='$id_jadwal';";
         return $query->result_array();
     }
 
-    public function data_jadwal_siswa($sess, $jadwal, $waktu)
+    public function data_jadwal_siswa($sess, $jadwal)
     {
         $sql = "SELECT a_jadwal.id_jadwal,a_mapel.nama_mapel,a_jadwal.tanggal_mulai,a_jadwal.waktu_mulai,a_jadwal.waktu_selesai FROM `a_jadwal`
 INNER JOIN a_mapel
@@ -55,8 +55,7 @@ INNER JOIN a_kelas
 ON a_mapel.id_kelas=a_kelas.id
 INNER JOIN a_siswa
 ON a_kelas.slug=a_siswa.kelas
-WHERE a_siswa.username='$sess' AND a_jadwal.tanggal_mulai='$jadwal' AND
-a_jadwal.waktu_mulai<='$waktu' AND a_jadwal.waktu_selesai>'$waktu';";
+WHERE a_siswa.username='$sess' AND a_jadwal.tanggal_mulai='$jadwal'";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -140,7 +139,32 @@ WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
         return $query->result_array();
     }
 
+    public function cek_mepel_user($sess)
+    {
+        $sql = "SELECT * FROM `siswa_jawab`
+INNER JOIN a_siswa
+on siswa_jawab.username=a_siswa.username
+INNER JOIN a_kelas
+ON a_siswa.kelas=a_kelas.slug
+INNER JOIN a_mapel
+ON a_mapel.id_kelas=a_kelas.id
+INNER JOIN a_jadwal
+ON a_jadwal.id_mapel=a_mapel.id_mapel
+WHERE siswa_jawab.username='$sess';";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 
+    public function detail_mapel($id_jadwal)
+    {
+        $sql = "SELECT a_jadwal.id_jadwal,a_mapel.nama_mapel,a_jadwal.tanggal_mulai,a_jadwal.waktu_mulai,a_jadwal.waktu_selesai,a_jadwal.durasi
+FROM `a_jadwal`
+INNER JOIN  a_mapel
+ON a_jadwal.id_mapel=a_mapel.id_mapel
+WHERE a_jadwal.id_jadwal='$id_jadwal';";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+    }
 
 
     function simpan($data = array())

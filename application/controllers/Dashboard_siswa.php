@@ -9,13 +9,31 @@ class Dashboard_siswa extends CI_Controller
     {
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
+
+
+        $cek = $this->Model_ujian->cek_mepel_user($sess);
+
         $jadwal = date('Y-m-d');
         $waktu =  date('H:i:s');
         $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
-        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal, $waktu);
+        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal);
 
         $this->load->view('Siswa/templates/header');
         $this->load->view('Siswa/tampilan_siswa', $isi);
+        $this->load->view('Siswa/templates/footer');
+    }
+
+    public function detail_soal($id_jadwal)
+    {
+        $this->Model_keamanan->getKeamanan();
+        $sess = $this->session->userdata('username');
+
+        $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
+        $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
+        // $isi['soal'] = $this->Model_ujian->soal_ujian_id_username($id_jadwal, $sess);
+
+        $this->load->view('Siswa/templates/header');
+        $this->load->view('Siswa/tampilan_detail_ujian', $isi);
         $this->load->view('Siswa/templates/footer');
     }
 
@@ -38,6 +56,7 @@ class Dashboard_siswa extends CI_Controller
         // expect answers as array: jawaban[<id_soal>] = 'A'|'B'|...
         $jawaban = $this->input->post('jawaban');
         $username = $this->session->userdata('username');
+        $id_mapel = $this->input->post('id_mapel');
 
 
         if (!empty($jawaban) && is_array($jawaban)) {
@@ -50,6 +69,7 @@ class Dashboard_siswa extends CI_Controller
                     'username' => $username,
                     'soal_id' => $id_soal,
                     'jawaban' => $pil,
+                    'id_mapel' => $id_mapel
 
                 );
             }

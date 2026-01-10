@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                     <h4 class="text-center text-danger font-weight-bolder">
-                                        <?= $this->agent->browser()  ?>
+                                        <!-- <?= $this->agent->browser()  ?> br -->
                                         <?= $this->input->ip_address() ?>
                                     </h4>
                                     <div class="text-center">
@@ -54,17 +54,18 @@
                                     </div>
 
                                     <?php if ($this->session->flashdata('pesan')): ?>
-                                        <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
+                                    <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
                                     <?php endif; ?>
 
-                                    <form class="user" method="post" action="<?= base_url('siswa_login/proses_login') ?>">
+                                    <form class="user" method="post"
+                                        action="<?= base_url('siswa_login/proses_login') ?>">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user" name="username"
                                                 placeholder="Masukan Username..." required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                name="password" placeholder="Masukan Password" required>
+                                            <input type="text" class="form-control form-control-user" name="password"
+                                                placeholder="Masukan Password" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
