@@ -11,7 +11,7 @@ class Dashboard_siswa extends CI_Controller
         $sess = $this->session->userdata('username');
 
 
-        $cek = $this->Model_ujian->cek_mepel_user($sess);
+        // $cek = $this->Model_ujian->cek_mepel_user($sess);
 
         $jadwal = date('Y-m-d');
         $waktu =  date('H:i:s');
@@ -26,15 +26,24 @@ class Dashboard_siswa extends CI_Controller
     public function detail_soal($id_jadwal)
     {
         $this->Model_keamanan->getKeamanan();
+
         $sess = $this->session->userdata('username');
-
         $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
-        $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
         // $isi['soal'] = $this->Model_ujian->soal_ujian_id_username($id_jadwal, $sess);
+        // $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
 
-        $this->load->view('Siswa/templates/header');
-        $this->load->view('Siswa/tampilan_detail_ujian', $isi);
-        $this->load->view('Siswa/templates/footer');
+        $cek = $this->Model_ujian->cek_mepel_user($sess, $id_jadwal);
+        if ($cek > 0) {
+            $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
+            $this->load->view('Siswa/templates/header');
+            $this->load->view('Siswa/tampilan_detail_ujian_finish', $isi);
+            $this->load->view('Siswa/templates/footer');
+        } else {
+            $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
+            $this->load->view('Siswa/templates/header');
+            $this->load->view('Siswa/tampilan_detail_ujian', $isi);
+            $this->load->view('Siswa/templates/footer');
+        }
     }
 
     public function ujian_siswa($id_jadwal)

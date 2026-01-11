@@ -139,18 +139,20 @@ WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
         return $query->result_array();
     }
 
-    public function cek_mepel_user($sess)
+    public function cek_mepel_user($sess, $id_jadwal)
     {
-        $sql = "SELECT * FROM `siswa_jawab`
-INNER JOIN a_siswa
-on siswa_jawab.username=a_siswa.username
-INNER JOIN a_kelas
-ON a_siswa.kelas=a_kelas.slug
-INNER JOIN a_mapel
-ON a_mapel.id_kelas=a_kelas.id
-INNER JOIN a_jadwal
-ON a_jadwal.id_mapel=a_mapel.id_mapel
-WHERE siswa_jawab.username='$sess';";
+        $sql = "SELECT COUNT(*) AS total
+FROM siswa_jawab
+JOIN a_siswa 
+    ON siswa_jawab.username = a_siswa.username
+JOIN a_kelas 
+    ON a_siswa.kelas = a_kelas.slug
+JOIN a_mapel 
+    ON a_mapel.id_kelas = a_kelas.id
+JOIN a_jadwal 
+    ON a_jadwal.id_mapel = a_mapel.id_mapel
+WHERE siswa_jawab.username = '$sess'
+or a_jadwal.id_jadwal = '$id_jadwal';";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
