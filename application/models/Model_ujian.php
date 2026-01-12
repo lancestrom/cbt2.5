@@ -157,13 +157,20 @@ or a_jadwal.id_jadwal = '$id_jadwal';";
         return $query->result_array();
     }
 
-    public function detail_mapel($id_jadwal)
+    public function detail_mapel($id_jadwal, $sess)
     {
-        $sql = "SELECT a_jadwal.id_jadwal,a_mapel.nama_mapel,a_jadwal.tanggal_mulai,a_jadwal.waktu_mulai,a_jadwal.waktu_selesai,a_jadwal.durasi
+
+        $sql = "SELECT a_jadwal.id_jadwal,a_mapel.nama_mapel,a_jadwal.tanggal_mulai,a_jadwal.waktu_mulai,a_jadwal.waktu_selesai,a_jadwal.durasi,
+IF(count(*)>0,'SELESAI',' BELUM MULAI') AS status,
+IF(count(*)>0,'disabled',' ') AS cek_tombol
 FROM `a_jadwal`
 INNER JOIN  a_mapel
 ON a_jadwal.id_mapel=a_mapel.id_mapel
-WHERE a_jadwal.id_jadwal='$id_jadwal';";
+INNER JOIN siswa_jawab
+ON siswa_jawab.id_mapel=a_mapel.id_mapel
+INNER JOIN a_siswa
+ON siswa_jawab.username=a_siswa.username
+WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
         $query = $this->db->query($sql);
         return $query->row_array();
     }

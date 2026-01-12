@@ -36,10 +36,20 @@
                         <?= $ujian['durasi'] ?> Menit
                     </h5>
                     <h5 class="text-center">
-                        <a class="btn btn-sm btn-primary"
-                            href="<?= base_url() ?>Dashboard_siswa/ujian_siswa/<?= $ujian['id_jadwal'] ?>">
+                        <a class='btn btn-sm btn-primary <?= $ujian['cek_tombol'] ?>'
+                            href='<?= base_url() ?>Dashboard_siswa/ujian_siswa/<?= $ujian['id_jadwal'] ?>'>
                             MULAI</a>
                     </h5>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-center">STATUS : <?= $ujian['status'] ?> </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

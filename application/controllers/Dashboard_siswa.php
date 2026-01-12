@@ -28,22 +28,17 @@ class Dashboard_siswa extends CI_Controller
         $this->Model_keamanan->getKeamanan();
 
         $sess = $this->session->userdata('username');
+
+        $benar = "";
         $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
         // $isi['soal'] = $this->Model_ujian->soal_ujian_id_username($id_jadwal, $sess);
         // $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
 
-        $cek = $this->Model_ujian->cek_mepel_user($sess, $id_jadwal);
-        if ($cek > 0) {
-            $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
-            $this->load->view('Siswa/templates/header');
-            $this->load->view('Siswa/tampilan_detail_ujian_finish', $isi);
-            $this->load->view('Siswa/templates/footer');
-        } else {
-            $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal);
-            $this->load->view('Siswa/templates/header');
-            $this->load->view('Siswa/tampilan_detail_ujian', $isi);
-            $this->load->view('Siswa/templates/footer');
-        }
+
+        $isi['ujian'] = $this->Model_ujian->detail_mapel($id_jadwal, $sess);
+        $this->load->view('Siswa/templates/header');
+        $this->load->view('Siswa/tampilan_detail_ujian', $isi);
+        $this->load->view('Siswa/templates/footer');
     }
 
     public function ujian_siswa($id_jadwal)

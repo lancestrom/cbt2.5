@@ -39,7 +39,8 @@
                                                 <?php $soal_id = isset($row['id_soal']) ? $row['id_soal'] : $idx; ?>
 
 
-                                                <input type="text" value=" <?= $row['id_mapel'] ?>" name="id_mapel">
+                                                <input type="text" value=" <?= $row['id_mapel'] ?>" name="id_mapel"
+                                                    hidden>
 
 
 
