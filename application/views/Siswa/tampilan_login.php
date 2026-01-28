@@ -40,7 +40,7 @@
                                     <div class="row">
                                         <div class="col-md mb-3">
                                             <h5 class="text-center">
-                                                <img src="https://smkth-jakbar.com/assets/images/logo.png"
+                                                <img src="<?= base_url() ?>assets/images/logo.png"
                                                     style="width: 150px;height: 150px;" alt="IMG">
                                             </h5>
                                         </div>
@@ -54,7 +54,7 @@
                                     </div>
 
                                     <?php if ($this->session->flashdata('pesan')): ?>
-                                    <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
+                                        <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
                                     <?php endif; ?>
 
                                     <form class="user" method="post"
