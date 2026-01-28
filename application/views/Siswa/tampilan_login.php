@@ -47,7 +47,11 @@
                                     </div>
                                     <h4 class="text-center text-danger font-weight-bolder">
                                         <!-- <?= $this->agent->browser()  ?> br -->
-                                        <?= $this->input->ip_address() ?>
+                                        <div class="clock">
+                                            <span id="hours">00</span> :
+                                            <span id="minutes">00</span> :
+                                            <span id="seconds">00</span>
+                                        </div>
                                     </h4>
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">SILAHKAN LOGIN</h1>
@@ -83,6 +87,29 @@
         </div>
 
     </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            // Tambah 0 di depan jika < 10
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+
+        // Update tiap 1 detik
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url() ?>assets/siswa/vendor/jquery/jquery.min.js"></script>
