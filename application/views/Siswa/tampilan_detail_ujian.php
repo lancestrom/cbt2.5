@@ -40,10 +40,11 @@
                             href='<?= base_url() ?>Dashboard_siswa/ujian_siswa/<?= $ujian['id_jadwal'] ?>'>
                             MULAI</a> -->
                         <form method="post" action="<?= base_url() ?>Dashboard_siswa/simpan_status_peserta">
-                            <input type="text" value="<?= $ujian['id_jadwal'] ?>" name="id_jadwal" class="form-control">
-                            <input type="text" value="<?= $siswa['id'] ?>" name="id_siswa" class="form-control">
-                            <button type="submit"
-                                class="btn btn-primary btn-sm <?= $ujian['cek_tombol'] ?>">Mulai</button>
+                            <input type="text" value="<?= $ujian['id_jadwal'] ?>" name="id_jadwal" class="form-control"
+                                hidden>
+                            <input type="text" value="<?= $siswa['id'] ?>" name="id_siswa" class="form-control" hidden>
+                            <button type="submit" class="btn btn-primary btn-sm"
+                                <?= $ujian['cek_tombol'] ?>>Mulai</button>
                         </form>
                     </h5>
                     <div class="row">

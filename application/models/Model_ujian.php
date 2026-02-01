@@ -120,7 +120,7 @@ WHERE a_jadwal.id_jadwal='$id_jadwal' AND a_siswa.username='$sess';";
     public function soal_ujian_id_username($id_jadwal, $sess)
     {
         $sql = "SELECT a_jadwal.id_jadwal,a_jadwal.id_mapel,jadwal_soal.id_bank_soal,soal.id_soal,a_siswa.username,a_mapel.nama_mapel,
-soal.id_soal, soal.soal,soal.pilA,soal.pilB,soal.pilC,soal.pilD,soal.pilE,soal.kunci
+soal.id_soal, soal.soal,soal.pilA,soal.pilB,soal.pilC,soal.pilD,soal.pilE,soal.kunci,soal.gambar
 FROM `jadwal_soal`
 INNER JOIN a_jadwal
 ON jadwal_soal.id_jadwal=a_jadwal.id_jadwal
