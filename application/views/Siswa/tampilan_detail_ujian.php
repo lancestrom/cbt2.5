@@ -36,9 +36,15 @@
                         <?= $ujian['durasi'] ?> Menit
                     </h5>
                     <h5 class="text-center">
-                        <a class='btn btn-sm btn-primary <?= $ujian['cek_tombol'] ?>'
+                        <!-- <a class='btn btn-sm btn-primary <?= $ujian['cek_tombol'] ?>'
                             href='<?= base_url() ?>Dashboard_siswa/ujian_siswa/<?= $ujian['id_jadwal'] ?>'>
-                            MULAI</a>
+                            MULAI</a> -->
+                        <form method="post" action="<?= base_url() ?>Dashboard_siswa/simpan_status_peserta">
+                            <input type="text" value="<?= $ujian['id_jadwal'] ?>" name="id_jadwal" class="form-control">
+                            <input type="text" value="<?= $siswa['id'] ?>" name="id_siswa" class="form-control">
+                            <button type="submit"
+                                class="btn btn-primary btn-sm <?= $ujian['cek_tombol'] ?>">Mulai</button>
+                        </form>
                     </h5>
                     <div class="row">
                         <div class="col-md">

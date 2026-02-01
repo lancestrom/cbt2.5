@@ -16,7 +16,7 @@ class Dashboard_siswa extends CI_Controller
         $jadwal = date('Y-m-d');
         $waktu =  date('H:i:s');
         $isi['siswa'] = $this->Model_siswa->dataSiswaID($sess);
-        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal);
+        $isi['ujian'] = $this->Model_ujian->data_jadwal_siswa($sess, $jadwal, $waktu);
 
         $this->load->view('Siswa/templates/header');
         $this->load->view('Siswa/tampilan_siswa', $isi);
@@ -39,6 +39,25 @@ class Dashboard_siswa extends CI_Controller
         $this->load->view('Siswa/templates/header');
         $this->load->view('Siswa/tampilan_detail_ujian', $isi);
         $this->load->view('Siswa/templates/footer');
+    }
+
+    public function simpan_status_peserta()
+    {
+        $this->Model_keamanan->getKeamanan();
+        $sess = $this->session->userdata('username');
+
+        $id_jadwal = $this->input->post('id_jadwal');
+        $id_siswa = $this->input->post('id_siswa');
+        $status = "MULAI MENGERJAKAN";
+
+        $data = array(
+            'id_jadwal' => $id_jadwal,
+            'id_siswa' => $id_siswa,
+            'status' => $status
+        );
+
+        $this->db->insert('siswa_status', $data);
+        redirect('Dashboard_siswa/ujian_siswa/' . $id_jadwal);
     }
 
     public function ujian_siswa($id_jadwal)
