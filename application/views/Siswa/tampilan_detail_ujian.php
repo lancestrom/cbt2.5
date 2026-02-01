@@ -42,7 +42,8 @@
                         <form method="post" action="<?= base_url() ?>Dashboard_siswa/simpan_status_peserta">
                             <input type="text" value="<?= $ujian['id_jadwal'] ?>" name="id_jadwal" class="form-control"
                                 hidden>
-                            <input type="text" value="<?= $siswa['id'] ?>" name="id_siswa" class="form-control" hidden>
+                            <input type="text" value="<?= $siswa['username'] ?>" name="username" class="form-control"
+                                hidden>
                             <button type="submit" class="btn btn-primary btn-sm"
                                 <?= $ujian['cek_tombol'] ?>>Mulai</button>
                         </form>

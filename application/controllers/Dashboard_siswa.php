@@ -47,12 +47,12 @@ class Dashboard_siswa extends CI_Controller
         $sess = $this->session->userdata('username');
 
         $id_jadwal = $this->input->post('id_jadwal');
-        $id_siswa = $this->input->post('id_siswa');
+        $username = $this->input->post('username');
         $status = "MULAI MENGERJAKAN";
 
         $data = array(
             'id_jadwal' => $id_jadwal,
-            'id_siswa' => $id_siswa,
+            'username' => $username,
             'status' => $status
         );
 
@@ -104,6 +104,14 @@ class Dashboard_siswa extends CI_Controller
         // keep previous behaviour: destroy session and redirect to home
 
         $sess = $this->session->userdata('username');
+
+        $data = array(
+            'status' => 'SELESAI'
+        );
+
+        $this->db->where('username', $sess);
+        $this->db->update('siswa_status', $data);
+
         $this->db->delete('siswa_login', array('username' => $sess));
         $this->session->sess_destroy();
         redirect('/');
