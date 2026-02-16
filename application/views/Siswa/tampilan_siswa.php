@@ -1,31 +1,31 @@
 <style>
-    /* Small, self-contained styles for student dashboard */
-    .student-header {
-        border-radius: .5rem;
-    }
+/* Small, self-contained styles for student dashboard */
+.student-header {
+    border-radius: .5rem;
+}
 
+.student-clock {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: .1rem;
+}
+
+.exam-card .card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exam-empty {
+    padding: 2rem;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
     .student-clock {
-        font-weight: 700;
-        font-size: 1.25rem;
-        letter-spacing: .1rem;
+        font-size: 1rem;
     }
-
-    .exam-card .card-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .exam-empty {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    @media (max-width: 576px) {
-        .student-clock {
-            font-size: 1rem;
-        }
-    }
+}
 </style>
 
 <div class="row mb-3">
@@ -51,14 +51,14 @@
         </div>
     </div>
 
-    <div class="col-md-4 mt-3 mt-md-0">
+    <!-- <div class="col-md-4 mt-3 mt-md-0">
         <div class="card shadow-sm">
             <div class="card-body text-center">
                 <h6 class="mb-1 text-secondary">Informasi</h6>
                 <p class="small text-muted mb-0">Pastikan koneksi stabil saat mengikuti ujian.</p>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div class="row">
@@ -69,35 +69,35 @@
 
                 <div class="row">
                     <?php if (!empty($ujian) && is_array($ujian)): ?>
-                        <?php foreach ($ujian as $row): ?>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card exam-card h-100">
-                                    <div class="card-body">
-                                        <div>
-                                            <div class="font-weight-bold">
-                                                <?= htmlspecialchars($row['nama_mapel'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></div>
-                                            <?php if (!empty($row['durasi'])): ?>
-                                                <div class="small text-muted">Durasi:
-                                                    <?= htmlspecialchars($row['durasi'], ENT_QUOTES, 'UTF-8'); ?> menit</div>
-                                            <?php endif; ?>
-                                            <?php if (!empty($row['tanggal_mulai'])): ?>
-                                                <div class="small text-muted">Tanggal:
-                                                    <?= htmlspecialchars($row['tanggal_mulai'], ENT_QUOTES, 'UTF-8'); ?></div>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div>
-                                            <a class="btn btn-success btn-sm" role="button"
-                                                href="<?= base_url('Dashboard_siswa/detail_soal/' . htmlspecialchars($row['id_jadwal'], ENT_QUOTES, 'UTF-8')) ?>">Mulai</a>
-                                        </div>
-                                    </div>
+                    <?php foreach ($ujian as $row): ?>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="card exam-card h-100">
+                            <div class="card-body">
+                                <div>
+                                    <div class="font-weight-bold">
+                                        <?= htmlspecialchars($row['nama_mapel'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></div>
+                                    <?php if (!empty($row['durasi'])): ?>
+                                    <div class="small text-muted">Durasi:
+                                        <?= htmlspecialchars($row['durasi'], ENT_QUOTES, 'UTF-8'); ?> menit</div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($row['tanggal_mulai'])): ?>
+                                    <div class="small text-muted">Tanggal:
+                                        <?= htmlspecialchars($row['tanggal_mulai'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                    <?php endif; ?>
+                                </div>
+                                <div>
+                                    <a class="btn btn-success btn-sm" role="button"
+                                        href="<?= base_url('Dashboard_siswa/detail_soal/' . htmlspecialchars($row['id_jadwal'], ENT_QUOTES, 'UTF-8')) ?>">Mulai</a>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="col-12">
-                            <div class="alert alert-info exam-empty">Tidak ada ujian tersedia saat ini. Silakan cek kembali
-                                nanti.</div>
                         </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <div class="col-12">
+                        <div class="alert alert-info exam-empty">Tidak ada ujian tersedia saat ini. Silakan cek kembali
+                            nanti.</div>
+                    </div>
                     <?php endif; ?>
                 </div>
 
@@ -107,19 +107,19 @@
 </div>
 
 <script>
-    // Live clock for student dashboard
-    (function() {
-        function pad(v) {
-            return v.toString().padStart(2, '0');
-        }
+// Live clock for student dashboard
+(function() {
+    function pad(v) {
+        return v.toString().padStart(2, '0');
+    }
 
-        function updateClock() {
-            var d = new Date();
-            document.getElementById('hours').textContent = pad(d.getHours());
-            document.getElementById('minutes').textContent = pad(d.getMinutes());
-            document.getElementById('seconds').textContent = pad(d.getSeconds());
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-    })();
+    function updateClock() {
+        var d = new Date();
+        document.getElementById('hours').textContent = pad(d.getHours());
+        document.getElementById('minutes').textContent = pad(d.getMinutes());
+        document.getElementById('seconds').textContent = pad(d.getSeconds());
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+})();
 </script>
