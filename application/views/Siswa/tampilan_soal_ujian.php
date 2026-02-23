@@ -10,8 +10,14 @@
                         </div>
                     </div>
                     <div class="text-end small">
-                        <!-- <div>Waktu server: <strong id="serverTimeHeader"><?= date('Y-m-d H:i:s') ?></strong></div> -->
                         <div class="mt-1">Total Soal: <strong><?= count($soal) ?></strong></div>
+                        <div class="mt-2">
+                            <!-- Durasi Ujian: <strong id="totalExamDuration"
+                                style="color: #fff;"><?= isset($siswa['durasi']) ? $siswa['durasi'] : '60' ?></strong>
+                            menit | -->
+                            Sisa Waktu: <strong id="examTimeDisplayHeader"
+                                style="font-size: 1.2em; color: #fff;">60:00</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,7 +31,9 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div><strong>SOAL UJIAN</strong></div>
-                    <div class="small text-muted">Durasi per soal: <strong>3 detik</strong></div>
+                    <div class="small text-muted">Durasi per soal: <strong>3 detik</strong> | Total durasi ujian:
+                        <strong id="examTimeDisplay">60:00</strong>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row mt-2">
@@ -227,6 +235,83 @@
         const delaySeconds = 3; // 3 seconds delay per requirement
         let remaining = delaySeconds; // seconds per question
 
+        // Total exam duration (minutes) provided by PHP: default 60
+        const TOTAL_DURATION_MIN = parseInt('<?= isset($siswa['durasi']) ? $siswa['durasi'] : 60 ?>', 10) || 60;
+        let examTimeRemaining = TOTAL_DURATION_MIN * 60; // seconds
+        let examTimerInterval = null;
+
+        // Elements to display exam time (header + card)
+        const examTimeDisplay = document.getElementById('examTimeDisplay');
+        const examTimeDisplayHeader = document.getElementById('examTimeDisplayHeader');
+
+        // format seconds -> MM:SS
+        function formatExamTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // Auto-submit when exam time ends (or slightly past end)
+        function autoSubmitExam() {
+            // stop all timers
+            if (countdown) clearInterval(countdown);
+            if (examTimerInterval) clearInterval(examTimerInterval);
+
+            // persist before sending
+            try {
+                saveState();
+            } catch (e) {}
+
+            // disable interactions
+            try {
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                submitBtn.disabled = true;
+            } catch (e) {}
+
+            if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = '00:00';
+            if (examTimeDisplay) examTimeDisplay.textContent = '00:00';
+            document.getElementById('timerDisplay').textContent = 'Waktu ujian habis! Mengirim jawaban otomatis...';
+
+            // clear saved state to avoid stale restores after submit
+            try {
+                clearState();
+            } catch (e) {}
+
+            // submit after short delay to allow UI update
+            setTimeout(() => {
+                try {
+                    examForm.submit();
+                } catch (e) {
+                    console.warn('submit failed', e);
+                }
+            }, 1200);
+        }
+
+        // Start the exam countdown
+        function startExamTimer() {
+            if (examTimerInterval) clearInterval(examTimerInterval);
+            // initial render
+            if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
+            if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(examTimeRemaining);
+
+            examTimerInterval = setInterval(() => {
+                examTimeRemaining -= 1;
+                const formatted = formatExamTime(Math.max(0, examTimeRemaining));
+                if (examTimeDisplay) examTimeDisplay.textContent = formatted;
+                if (examTimeDisplayHeader) {
+                    examTimeDisplayHeader.textContent = formatted;
+                    // highlight when less than 5 minutes left
+                    if (examTimeRemaining <= 300) examTimeDisplayHeader.style.color = '#ff6b6b';
+                }
+
+                if (examTimeRemaining <= 0) {
+                    clearInterval(examTimerInterval);
+                    autoSubmitExam();
+                }
+            }, 1000);
+        }
+
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const timerEl = document.getElementById('timer');
@@ -359,6 +444,10 @@
 
         // build initial UI
         buildQuestionButtons();
+        // initialize exam time display and start timer
+        if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(examTimeRemaining);
+        if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
+        startExamTimer();
 
         /* Persistence: save user answers and current state to localStorage so accidental refresh won't lose it */
         const storageKey =
@@ -376,6 +465,7 @@
                     answers,
                     current,
                     remaining,
+                    examTimeRemaining,
                     ts: Date.now()
                 };
                 localStorage.setItem(storageKey, JSON.stringify(state));
@@ -399,6 +489,18 @@
                     });
                     updateQuestionNav();
                     updateProgress();
+                    // Restore exam time remaining if available
+                    if (typeof st.examTimeRemaining === 'number') {
+                        // Calculate elapsed time since last save
+                        const elapsedSeconds = Math.floor((Date.now() - (st.ts || Date.now())) / 1000);
+                        examTimeRemaining = Math.max(0, st.examTimeRemaining - elapsedSeconds);
+                        // update displays immediately
+                        if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
+                        if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(
+                            examTimeRemaining);
+                        if (examTimeRemaining <= 300 && examTimeDisplayHeader) examTimeDisplayHeader.style.color =
+                            '#ff6b6b';
+                    }
                     return st;
                 }
             } catch (e) {

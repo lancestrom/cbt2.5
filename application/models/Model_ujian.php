@@ -72,7 +72,7 @@ WHERE a_jadwal.id_jadwal='$id_jadwal';";
 
     public function header_ujian_id($id_jadwal, $sess)
     {
-        $sql = "SELECT a_jadwal.id_jadwal,a_siswa.nama_siswa,a_mapel.nama_mapel FROM `a_jadwal`
+        $sql = "SELECT * FROM `a_jadwal`
 INNER JOIN a_mapel
 ON a_jadwal.id_mapel=a_mapel.id_mapel
 INNER JOIN a_kelas

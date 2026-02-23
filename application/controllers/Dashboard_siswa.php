@@ -48,7 +48,7 @@ class Dashboard_siswa extends CI_Controller
 
         $id_jadwal = $this->input->post('id_jadwal');
         $username = $this->input->post('username');
-        $status = "MULAI MENGERJAKAN";
+        $status = "MENGERJAKAN";
 
         $data = array(
             'id_jadwal' => $id_jadwal,
