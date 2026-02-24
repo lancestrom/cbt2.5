@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div><strong>SOAL UJIAN</strong></div>
-                    <div class="small text-muted">Durasi per soal: <strong>3 detik</strong> | Total durasi ujian:
+                    <div class="small text-muted">Durasi per soal: <strong>3 menit</strong> | Total durasi ujian:
                         <strong id="examTimeDisplay">60:00</strong>
                     </div>
                 </div>
@@ -232,7 +232,7 @@
         const total = questions.length;
         let current = 0;
         let countdown = null; // interval
-        const delaySeconds = 3; // 3 seconds delay per requirement
+        const delaySeconds = 180; // 3 minutes delay per requirement
         let remaining = delaySeconds; // seconds per question
 
         // Total exam duration (minutes) provided by PHP: default 60
