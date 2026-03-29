@@ -20,7 +20,7 @@ class MY_Controller extends CI_Controller
         $session_id = get_cookie('app_session_id');
 
         if (!$session_id) {
-            redirect('login');
+            redirect('Siswa_login');
         }
 
         // Cek session di database
@@ -28,7 +28,7 @@ class MY_Controller extends CI_Controller
 
         if (!$session) {
             delete_cookie('app_session_id');
-            redirect('login');
+            redirect('Siswa_login');
         }
 
         // Update timestamp untuk keep-alive
