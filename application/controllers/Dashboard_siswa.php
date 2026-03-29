@@ -26,6 +26,7 @@ class Dashboard_siswa extends MY_Controller
 
     public function detail_soal($id_jadwal)
     {
+        $this->require_login();
         $this->Model_keamanan->getKeamanan();
 
         $sess = $this->session->userdata('username');
@@ -44,6 +45,7 @@ class Dashboard_siswa extends MY_Controller
 
     public function simpan_status_peserta()
     {
+        $this->require_login();
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
 
@@ -63,6 +65,7 @@ class Dashboard_siswa extends MY_Controller
 
     public function ujian_siswa($id_jadwal)
     {
+        $this->require_login();
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
 
@@ -77,6 +80,7 @@ class Dashboard_siswa extends MY_Controller
 
     public function simpan_jawaban()
     {
+        $this->require_login();
         // expect answers as array: jawaban[<id_soal>] = 'A'|'B'|...
         $jawaban = $this->input->post('jawaban');
         $username = $this->session->userdata('username');
