@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dashboard_siswa extends CI_Controller
+class Dashboard_siswa extends MY_Controller
 {
 
 
     public function index()
     {
+        $this->require_login();
         $this->Model_keamanan->getKeamanan();
         $sess = $this->session->userdata('username');
 
@@ -119,9 +120,21 @@ class Dashboard_siswa extends CI_Controller
 
     public function logout()
     {
-        $sess = $this->session->userdata('username');
-        $this->db->delete('siswa_login', array('username' => $sess));
+        // Get session_id dari cookie
+        $session_id = get_cookie('app_session_id');
+
+        if ($session_id) {
+            // Hapus session dari database berdasarkan session_id
+            $this->Session_Model->delete_session($session_id);
+        }
+
+        // Hapus cookie
+        delete_cookie('app_session_id');
+
+        // Hapus session CodeIgniter
         $this->session->sess_destroy();
-        redirect('/');
+
+        // Redirect ke login
+        redirect('Siswa_login');
     }
 }
