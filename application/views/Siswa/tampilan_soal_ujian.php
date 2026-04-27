@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div><strong>SOAL UJIAN</strong></div>
-                    <div class="small text-muted">Durasi per soal: <strong>3 menit</strong> | Total durasi ujian:
+                    <div class="small text-muted">Durasi per soal: <strong>10 detik</strong> | Total durasi ujian:
                         <strong id="examTimeDisplay">60:00</strong>
                     </div>
                 </div>
