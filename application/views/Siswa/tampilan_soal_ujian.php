@@ -232,7 +232,7 @@
         const total = questions.length;
         let current = 0;
         let countdown = null; // interval
-        const delaySeconds = 180; // 3 minutes delay per requirement
+        const delaySeconds = 10; // 10 seconds delay per requirement
         let remaining = delaySeconds; // seconds per question
 
         // Total exam duration (minutes) provided by PHP: default 60
