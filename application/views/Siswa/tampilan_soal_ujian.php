@@ -1,22 +1,22 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md mt-4">
-            <div class="card shadow-sm">
-                <div class="card-body d-flex align-items-center justify-content-between bg-primary text-white">
+        <div class="col-12">
+            <div class="card shadow-lg border-0"
+                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px;">
+                <div class="card-body d-flex align-items-center justify-content-between text-white p-4">
                     <div>
-                        <h4 class="mb-1"><?= $siswa['nama_siswa'] ?></h4>
+                        <h4 class="mb-1 fw-bold"><?= $siswa['nama_siswa'] ?></h4>
                         <div class="small">
                             <?= isset($siswa['nama_kelas']) ? $siswa['nama_kelas'] . ' — ' : '' ?><strong><?= $siswa['nama_mapel'] ?></strong>
                         </div>
                     </div>
-                    <div class="text-end small">
-                        <div class="mt-1">Total Soal: <strong><?= count($soal) ?></strong></div>
-                        <div class="mt-2">
-                            <!-- Durasi Ujian: <strong id="totalExamDuration"
-                                style="color: #fff;"><?= isset($siswa['durasi']) ? $siswa['durasi'] : '60' ?></strong>
-                            menit | -->
-                            Sisa Waktu: <strong id="examTimeDisplayHeader"
-                                style="font-size: 1.2em; color: #fff;">60:00</strong>
+                    <div class="text-end">
+                        <div class="mt-1 small">Total Soal: <strong
+                                style="font-size: 1.3em;"><?= count($soal) ?></strong></div>
+                        <div class="mt-3">
+                            <div style="font-size: 0.9em;">Sisa Waktu</div>
+                            <div style="font-size: 2em; font-weight: bold; color: #ffd700;" id="examTimeDisplayHeader">
+                                60:00</div>
                         </div>
                     </div>
                 </div>
@@ -25,68 +25,63 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-md mt-4">
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div><strong>SOAL UJIAN</strong></div>
-                    <div class="small text-muted">Durasi per soal: <strong>10 detik</strong> | Total durasi ujian:
-                        <strong id="examTimeDisplay">60:00</strong>
+        <div class="col-12">
+            <div class="card shadow-lg border-0" style="border-radius: 15px; overflow: hidden;">
+                <div class="card-header bg-gradient text-white p-3"
+                    style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="mb-0 fw-bold">📋 SOAL UJIAN</h5>
+                        </div>
+                        <div class="small">
+                            <span>Per soal: <strong>10 detik</strong></span> |
+                            <span class="ms-3">Total: <strong id="examTimeDisplay">60:00</strong></span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row mt-2">
-                        <div class="col-md-3">
-                            <div class="card mb-3">
-                                <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header" id="headingThree">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                                    data-toggle="collapse" data-target="#collapseThree"
-                                                    aria-expanded="false" aria-controls="collapseThree">
-                                                    Jumlah Soal
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                            data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <div class="card-body p-2" id="questionNav"
-                                                    style="max-height:420px; overflow:auto;">
-                                                    <div id="qBtns" class="d-flex flex-wrap"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- Navigation Panel -->
+                        <div class="col-lg-3 mb-3 mb-lg-0">
+                            <div class="card border-0 shadow-sm" style="border-radius: 10px; background: #f8f9fa;">
+                                <div class="card-header bg-light border-bottom"
+                                    style="border-radius: 10px 10px 0 0; font-weight: bold;">
+                                    📌 Navigasi Soal
                                 </div>
-                                <!-- <div class="card-header">Pilih Soal</div> -->
-
-                                <div class="card-footer">
-                                    <div class="progress">
+                                <div class="card-body p-2">
+                                    <div class="d-flex flex-wrap gap-2" id="qBtns"
+                                        style="max-height: 450px; overflow-y: auto;"></div>
+                                </div>
+                                <div class="card-footer bg-light border-top p-3" style="border-radius: 0 0 10px 10px;">
+                                    <div class="progress mb-3" style="height: 25px; border-radius: 8px;">
                                         <div id="progressBar" class="progress-bar bg-success" role="progressbar"
-                                            style="width:0%">0%</div>
+                                            style="width:0%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.85em;">
+                                            0%</div>
                                     </div>
-                                    <div class="small text-muted mt-2">Terjawab: <span id="answeredCount">0</span> /
-                                        <span id="totalCount"><?= count($soal) ?></span>
+                                    <div class="small text-muted">
+                                        ✓ Terjawab: <strong id="answeredCount" style="color: #28a745;">0</strong> /
+                                        <strong id="totalCount"><?= count($soal) ?></strong>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- Questions: render all but show one at a time via JS -->
-                                    <!-- Wrap all questions in a single form so final submit sends all answers -->
+
+                        <!-- Question Display -->
+                        <div class="col-lg-9">
+                            <div class="card border-0 shadow-sm" style="border-radius: 10px;">
+                                <div class="card-body p-4">
                                     <form id="examForm" method="post"
                                         action="<?= base_url('Dashboard_siswa/simpan_jawaban') ?>">
-
                                         <input type="hidden" name="id_mapel"
                                             value="<?= isset($soal[0]['id_mapel']) ? $soal[0]['id_mapel'] : '' ?>">
 
-                                        <div id="recoverAlert" class="alert alert-info d-none small">Jawaban dipulihkan
-                                            dari sesi sebelumnya. Pastikan meninjau dan mengirim kembali.</div>
+                                        <div id="recoverAlert" class="alert alert-info d-none small"
+                                            style="border-radius: 8px;">
+                                            <strong>ℹ️ Informasi:</strong> Jawaban dipulihkan dari sesi sebelumnya.
+                                            Pastikan meninjau dan mengirim kembali.
+                                        </div>
 
                                         <div id="questions">
                                             <?php
@@ -95,49 +90,66 @@
                                                 $soal_id = isset($row['id_soal']) ? $row['id_soal'] : $idx;
                                             ?>
                                             <div class="question" data-index="<?= $idx ?>"
-                                                data-soal-id="<?= $soal_id ?>">
-                                                <h5 class="mb-3">Soal <?= $no++; ?></h5>
-                                                <div class="mb-3"> <?= $row['soal'] ?> </div>
+                                                data-soal-id="<?= $soal_id ?>" style="display: none;">
+                                                <div
+                                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                                                    <h5 class="mb-0 fw-bold">Soal <?= $no++; ?></h5>
+                                                </div>
+
+                                                <div class="mb-4 p-3 bg-light"
+                                                    style="border-left: 5px solid #667eea; border-radius: 8px;">
+                                                    <?= $row['soal'] ?>
+                                                </div>
 
                                                 <?php if (!empty($row['gambar']) && file_exists(FCPATH . 'assets/images/gambar/' . $row['gambar'])) : ?>
-                                                <div class="text-center mb-3">
+                                                <div class="text-center mb-4">
                                                     <img src="<?= base_url('assets/images/gambar/' . $row['gambar']) ?>"
                                                         alt="Gambar soal <?= $idx + 1 ?>"
-                                                        class="img-fluid rounded shadow-sm"
-                                                        style="max-height:360px; object-fit:contain;">
+                                                        class="img-fluid rounded shadow"
+                                                        style="max-height: 300px; object-fit: contain;">
                                                 </div>
                                                 <?php endif; ?>
-                                                <!-- answer inputs named as array keyed by soal id -->
-                                                <div class="list-group mb-2">
-                                                    <label class="list-group-item list-group-item-action">
-                                                        <input class="form-check-input me-2" type="radio"
+
+                                                <div class="mb-3">
+                                                    <label class="list-group-item p-3 mb-2 cursor-pointer"
+                                                        style="border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s ease; cursor: pointer;">
+                                                        <input class="form-check-input me-3" type="radio"
                                                             name="jawaban[<?= $soal_id ?>]" value="A"
                                                             id="q<?= $soal_id ?>a">
-                                                        <strong>A.</strong> <?= $row['pilA'] ?>
+                                                        <span class="fw-bold" style="color: #667eea;">A.</span>
+                                                        <?= $row['pilA'] ?>
                                                     </label>
-                                                    <label class="list-group-item list-group-item-action">
-                                                        <input class="form-check-input me-2" type="radio"
+                                                    <label class="list-group-item p-3 mb-2 cursor-pointer"
+                                                        style="border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s ease; cursor: pointer;">
+                                                        <input class="form-check-input me-3" type="radio"
                                                             name="jawaban[<?= $soal_id ?>]" value="B"
                                                             id="q<?= $soal_id ?>b">
-                                                        <strong>B.</strong> <?= $row['pilB'] ?>
+                                                        <span class="fw-bold" style="color: #667eea;">B.</span>
+                                                        <?= $row['pilB'] ?>
                                                     </label>
-                                                    <label class="list-group-item list-group-item-action">
-                                                        <input class="form-check-input me-2" type="radio"
+                                                    <label class="list-group-item p-3 mb-2 cursor-pointer"
+                                                        style="border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s ease; cursor: pointer;">
+                                                        <input class="form-check-input me-3" type="radio"
                                                             name="jawaban[<?= $soal_id ?>]" value="C"
                                                             id="q<?= $soal_id ?>c">
-                                                        <strong>C.</strong> <?= $row['pilC'] ?>
+                                                        <span class="fw-bold" style="color: #667eea;">C.</span>
+                                                        <?= $row['pilC'] ?>
                                                     </label>
-                                                    <label class="list-group-item list-group-item-action">
-                                                        <input class="form-check-input me-2" type="radio"
+                                                    <label class="list-group-item p-3 mb-2 cursor-pointer"
+                                                        style="border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s ease; cursor: pointer;">
+                                                        <input class="form-check-input me-3" type="radio"
                                                             name="jawaban[<?= $soal_id ?>]" value="D"
                                                             id="q<?= $soal_id ?>d">
-                                                        <strong>D.</strong> <?= $row['pilD'] ?>
+                                                        <span class="fw-bold" style="color: #667eea;">D.</span>
+                                                        <?= $row['pilD'] ?>
                                                     </label>
-                                                    <label class="list-group-item list-group-item-action">
-                                                        <input class="form-check-input me-2" type="radio"
+                                                    <label class="list-group-item p-3 cursor-pointer"
+                                                        style="border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s ease; cursor: pointer;">
+                                                        <input class="form-check-input me-3" type="radio"
                                                             name="jawaban[<?= $soal_id ?>]" value="E"
                                                             id="q<?= $soal_id ?>e">
-                                                        <strong>E.</strong> <?= $row['pilE'] ?>
+                                                        <span class="fw-bold" style="color: #667eea;">E.</span>
+                                                        <?= $row['pilE'] ?>
                                                     </label>
                                                 </div>
                                             </div>
@@ -145,31 +157,47 @@
                                         </div>
 
                                         <!-- Controls -->
-                                        <div class="d-flex align-items-center mt-3" id="controls">
-                                            <button id="prevBtn" type="button" class="btn btn-secondary mr-2"
-                                                disabled>Prev</button>
-                                            <button id="nextBtn" type="button" class="btn btn-primary mr-2"
-                                                disabled>Next</button>
-                                            <div id="timerDisplay" class="ml-2 text-warning fw-bold"
-                                                style="min-height: 20px;">
-                                                <span id="timerText">Tunggu </span><span id="timer">10</span><span
-                                                    id="timerText2">s...</span>
-                                            </div>
-                                            <!-- <div class="ml-4" id="serverClock">Waktu server: <strong
-                                                    id="serverTime"><?= date('Y-m-d H:i:s') ?></strong> <small
-                                                    class="text-muted">(<?= date_default_timezone_get() ?>)</small>
-                                            </div> -->
-                                            <div class="ml-auto d-flex align-items-center" id="progress">
-                                                <div class="me-3">Soal <span id="current">1</span> / <span
-                                                        id="total"><?= count($soal) ?></span></div>
-                                                <!-- Submit button: hidden until last question -->
-                                                <button id="submitBtn" type="button"
-                                                    class="btn btn-success ml-3 d-none">Kirim Jawaban</button>
-
+                                        <div class="mt-4 pt-3 border-top" id="controls">
+                                            <div class="row align-items-center">
+                                                <div class="col-auto">
+                                                    <button id="prevBtn" type="button" class="btn btn-outline-secondary"
+                                                        style="border-radius: 8px; padding: 10px 30px;" disabled>
+                                                        ← Sebelumnya
+                                                    </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button id="nextBtn" type="button" class="btn btn-primary"
+                                                        style="border-radius: 8px; padding: 10px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;"
+                                                        disabled>
+                                                        Selanjutnya →
+                                                    </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div id="timerDisplay" class="d-flex align-items-center gap-2">
+                                                        <span style="font-size: 1.2em;">⏱️</span>
+                                                        <span id="timerText"
+                                                            style="font-weight: bold; color: #667eea;">Tunggu </span>
+                                                        <span id="timer"
+                                                            style="font-size: 1.3em; font-weight: bold; color: #e74c3c;">10</span>
+                                                        <span id="timerText2"
+                                                            style="font-weight: bold; color: #667eea;">s...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col text-end">
+                                                    <span class="badge bg-primary"
+                                                        style="padding: 8px 15px; font-size: 0.95em;">
+                                                        Soal <span id="current">1</span> / <span
+                                                            id="total"><?= count($soal) ?></span>
+                                                    </span>
+                                                    <button id="submitBtn" type="button"
+                                                        class="btn btn-success ms-3 d-none"
+                                                        style="border-radius: 8px; padding: 10px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border: none;">
+                                                        ✓ Kirim Jawaban
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -180,436 +208,483 @@
     </div>
 </div>
 
+
+
+<!-- Modal markup included via JS -->
+
 <style>
-/* subtle show/hide animation for questions */
-.question {
-    display: none;
-    opacity: 0;
-    transition: opacity .35s ease-in-out;
+/* Enhanced Styles */
+.list-group-item {
+    cursor: pointer;
+    transition: all 0.3s ease !important;
 }
 
-.question.show {
-    display: block;
-    opacity: 1;
+.list-group-item:hover {
+    background-color: #f0f0f0 !important;
+    transform: translateX(5px);
 }
 
-/* question nav buttons */
-.qnav {
-    min-width: 40px;
+.list-group-item input[type="radio"]:checked+span,
+input[type="radio"]:checked~span {
+    color: #667eea !important;
 }
 
-.qnav.current {
-    background: #0d6efd;
-    color: #fff;
+.list-group-item input[type="radio"]:checked~* {
+    font-weight: 600;
 }
 
-.qnav.answered {
-    border-color: #28a745;
+label.list-group-item input[type="radio"]:checked {
+    border-color: #667eea;
 }
 
-/* Next button disabled state styling */
-#nextBtn:disabled {
-    opacity: 0.5 !important;
-    cursor: not-allowed !important;
-    background-color: #6c757d !important;
-    border-color: #6c757d !important;
-    pointer-events: none;
-}
-
-#nextBtn:not(:disabled) {
-    opacity: 1;
+label {
     cursor: pointer;
 }
 
-/* Timer display styling */
-#timerDisplay {
-    min-height: 20px;
-    font-size: 0.95rem;
+label input[type="radio"]:checked {
+    background-color: #667eea;
+    border-color: #667eea;
 }
 
-/* simple modal */
-.modal-backdrop-custom {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    display: none;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+/* Navigation Buttons */
+.nav-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid #e0e0e0;
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1050;
 }
 
-.modal-custom {
-    background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    max-width: 480px;
-    width: 90%;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+.nav-btn.answered {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.nav-btn.current {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.nav-btn.unanswered {
+    background-color: white;
+    color: #667eea;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question {
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+
+    .col-lg-3,
+    .col-lg-9 {
+        margin-bottom: 20px;
+    }
 }
 </style>
 
-<!-- JS: timer, server clock and navigation -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const questions = Array.from(document.querySelectorAll('.question'));
-    const total = questions.length;
-    let current = 0;
-    let countdown = null; // interval
-    const delaySeconds = 10; // 10 seconds delay per requirement
-    let remaining = delaySeconds; // seconds per question
+    // ==================== CONFIGURATION ====================
+    const DELAY_BETWEEN_QUESTIONS = 10; // 10 seconds delay
+    const STORAGE_KEY = 'exam_answers_' + new Date().toISOString().split('T')[0];
+    const EXAM_DURATION = 60 * 60; // 60 minutes in seconds
 
-    // Total exam duration (minutes) provided by PHP: default 60
-    const TOTAL_DURATION_MIN = parseInt('<?= isset($siswa['durasi']) ? $siswa['durasi'] : 60 ?>', 10) || 60;
-    let examTimeRemaining = TOTAL_DURATION_MIN * 60; // seconds
-    let examTimerInterval = null;
+    // ==================== STATE ====================
+    let currentQuestionIndex = 0;
+    let totalQuestions = document.querySelectorAll('.question').length;
+    let transitionTimer = null;
+    let examTimer = null;
+    let examTimeRemaining = EXAM_DURATION;
+    let canNavigate = false;
+    let questionTimers = {}; // Track timer for each question
+    let examStartTime = parseInt(localStorage.getItem('exam_start_time')) || Date.now();
 
-    // Elements to display exam time (header + card)
-    const examTimeDisplay = document.getElementById('examTimeDisplay');
-    const examTimeDisplayHeader = document.getElementById('examTimeDisplayHeader');
+    // ==================== INITIALIZATION ====================
+    function init() {
+        setupQuestions();
+        setupNavigationButtons();
+        loadSavedAnswers();
 
-    // format seconds -> MM:SS
-    function formatExamTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        // Save exam start time if not already saved
+        if (!localStorage.getItem('exam_start_time')) {
+            localStorage.setItem('exam_start_time', examStartTime);
+        }
+
+        startExamTimer();
+
+        // Load last viewed question from localStorage
+        let lastQuestionIndex = localStorage.getItem('last_question_index');
+        let startIndex = lastQuestionIndex ? parseInt(lastQuestionIndex) : 0;
+
+        // Ensure index is valid
+        if (startIndex < 0 || startIndex >= totalQuestions) {
+            startIndex = 0;
+        }
+
+        showQuestion(startIndex);
+        setupAnswerAutoSave();
+        updateNavigationUI();
+
+        // Start timer on first question
+        startQuestionTimer();
     }
 
-    // Auto-submit when exam time ends (or slightly past end)
-    function autoSubmitExam() {
-        // stop all timers
-        if (countdown) clearInterval(countdown);
-        if (examTimerInterval) clearInterval(examTimerInterval);
-
-        // persist before sending
-        try {
-            saveState();
-        } catch (e) {}
-
-        // disable interactions
-        try {
-            prevBtn.disabled = true;
-            nextBtn.disabled = true;
-            submitBtn.disabled = true;
-        } catch (e) {}
-
-        if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = '00:00';
-        if (examTimeDisplay) examTimeDisplay.textContent = '00:00';
-        document.getElementById('timerDisplay').textContent = 'Waktu ujian habis! Mengirim jawaban otomatis...';
-
-        // clear saved state to avoid stale restores after submit
-        try {
-            clearState();
-        } catch (e) {}
-
-        // submit after short delay to allow UI update
-        setTimeout(() => {
-            try {
-                examForm.submit();
-            } catch (e) {
-                console.warn('submit failed', e);
-            }
-        }, 1200);
-    }
-
-    // Start the exam countdown
+    // ==================== EXAM TIMER ====================
     function startExamTimer() {
-        if (examTimerInterval) clearInterval(examTimerInterval);
-        // initial render
-        if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
-        if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(examTimeRemaining);
+        // Restore time from localStorage if available
+        let savedStartTime = localStorage.getItem('exam_start_time');
+        let savedTime = localStorage.getItem('exam_time_remaining');
 
-        examTimerInterval = setInterval(() => {
-            examTimeRemaining -= 1;
-            const formatted = formatExamTime(Math.max(0, examTimeRemaining));
-            if (examTimeDisplay) examTimeDisplay.textContent = formatted;
-            if (examTimeDisplayHeader) {
-                examTimeDisplayHeader.textContent = formatted;
-                // highlight when less than 5 minutes left
-                if (examTimeRemaining <= 300) examTimeDisplayHeader.style.color = '#ff6b6b';
-            }
+        if (savedStartTime && savedTime) {
+            let elapsedSeconds = Math.floor((Date.now() - parseInt(savedStartTime)) / 1000);
+            examTimeRemaining = parseInt(savedTime) - elapsedSeconds;
+            if (examTimeRemaining < 0) examTimeRemaining = 0;
+        }
+
+        examTimer = setInterval(() => {
+            examTimeRemaining--;
+            localStorage.setItem('exam_time_remaining', examTimeRemaining);
+            updateExamTimeDisplay();
 
             if (examTimeRemaining <= 0) {
-                clearInterval(examTimerInterval);
-                autoSubmitExam();
+                clearInterval(examTimer);
+                submitExam();
             }
         }, 1000);
     }
 
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const timerEl = document.getElementById('timer');
-    const currentEl = document.getElementById('current');
-    const totalEl = document.getElementById('total');
-    const submitBtn = document.getElementById('submitBtn');
-    const examForm = document.getElementById('examForm');
-    const qBtnsContainer = document.getElementById('qBtns');
-    const progressBar = document.getElementById('progressBar');
-    const answeredCountEl = document.getElementById('answeredCount');
-    const serverTimeElHeader = document.getElementById('serverTimeHeader');
-    const serverTimeEl = document.getElementById('serverTime');
+    function updateExamTimeDisplay() {
+        const minutes = Math.floor(examTimeRemaining / 60);
+        const seconds = examTimeRemaining % 60;
+        const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-    // Server time initialization from PHP server time (will tick client-side)
-    let serverTs = <?= time() ?> * 1000; // milliseconds
+        document.getElementById('examTimeDisplayHeader').textContent = timeString;
+        document.getElementById('examTimeDisplay').textContent = timeString;
 
-    function formatServerTime(ts) {
-        const d = new Date(ts);
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const hh = String(d.getHours()).padStart(2, '0');
-        const min = String(d.getMinutes()).padStart(2, '0');
-        const ss = String(d.getSeconds()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+        // Change color if time is running out
+        const header = document.getElementById('examTimeDisplayHeader');
+        if (examTimeRemaining <= 300) { // 5 minutes
+            header.style.color = '#ffa500'; // Orange
+        }
+        if (examTimeRemaining <= 60) { // 1 minute
+            header.style.color = '#e74c3c'; // Red
+        }
     }
 
-    setInterval(() => {
-        serverTs += 1000;
-        if (serverTimeEl) serverTimeEl.textContent = formatServerTime(serverTs);
-        if (serverTimeElHeader) serverTimeElHeader.textContent = formatServerTime(serverTs);
-    }, 1000);
-
-    totalEl.textContent = total;
-    document.getElementById('totalCount').textContent = total;
-
-    // build nav buttons
-    function buildQuestionButtons() {
-        qBtnsContainer.innerHTML = '';
+    // ==================== QUESTION SETUP ====================
+    function setupQuestions() {
+        const questions = document.querySelectorAll('.question');
         questions.forEach((q, idx) => {
-            const b = document.createElement('button');
-            b.type = 'button';
-            b.className = 'btn btn-outline-secondary btn-sm qnav me-1 mb-1';
-            b.textContent = idx + 1;
-            b.dataset.index = idx;
-            b.addEventListener('click', () => {
-                showQuestion(idx);
-            });
-            qBtnsContainer.appendChild(b);
-        });
-        updateQuestionNav();
-    }
-
-    function updateQuestionNav() {
-        const btns = Array.from(qBtnsContainer.querySelectorAll('button'));
-        btns.forEach((b, idx) => {
-            b.classList.toggle('current', idx === current);
-            const anyChecked = questions[idx].querySelector('input[type=radio]:checked');
-            b.classList.toggle('answered', !!anyChecked);
+            q.style.display = idx === 0 ? 'block' : 'none';
+            questionTimers[idx] = DELAY_BETWEEN_QUESTIONS;
         });
     }
 
-    function updateProgress() {
-        const answered = questions.filter(q => q.querySelector('input[type=radio]:checked')).length;
-        answeredCountEl.textContent = answered;
-        const pct = Math.round((answered / total) * 100);
-        progressBar.style.width = pct + '%';
-        progressBar.textContent = pct + '%';
-    }
+    // ==================== NAVIGATION ====================
+    function setupNavigationButtons() {
+        const container = document.getElementById('qBtns');
+        container.innerHTML = '';
 
-    function showQuestion(index, initialRemaining) {
-        if (index < 0 || index >= total) return;
-        questions.forEach((q, i) => q.classList.toggle('show', i === index));
-        current = index;
-        currentEl.textContent = current + 1;
+        for (let i = 0; i < totalQuestions; i++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'nav-btn unanswered';
+            btn.textContent = i + 1;
+            btn.dataset.index = i;
+            btn.style.cursor = 'pointer';
 
-        prevBtn.disabled = (current === 0);
-        nextBtn.disabled = true; // Disable during delay
-        nextBtn.style.opacity = '0.6'; // Visual feedback
-        nextBtn.style.cursor = 'not-allowed';
-        submitBtn.classList.add('d-none');
-
-        updateQuestionNav();
-        updateProgress();
-        startTimer(initialRemaining);
-        // persist current position immediately
-        saveState();
-    }
-
-    function startTimer(initialRemaining) {
-        if (countdown) clearInterval(countdown);
-        remaining = (typeof initialRemaining === 'number') ? initialRemaining : delaySeconds;
-        timerEl.textContent = remaining;
-
-        // Update timer display text
-        document.getElementById('timerText').textContent = 'Tunggu ';
-        document.getElementById('timerText2').textContent = 's...';
-
-        countdown = setInterval(() => {
-            remaining -= 1;
-            timerEl.textContent = (remaining > 0) ? remaining : 0;
-
-            if (remaining <= 0) {
-                clearInterval(countdown);
-                // save current state when a question's timer finishes
-                saveState();
-                if (current < total - 1) {
-                    nextBtn.disabled = false; // Enable after delay
-                    nextBtn.style.opacity = '1'; // Visual feedback
-                    nextBtn.style.cursor = 'pointer';
-                    document.getElementById('timerText').textContent = '';
-                    document.getElementById('timerText2').textContent = '';
-                    timerEl.textContent = '✓'; // Show checkmark
-                } else {
-                    // last question: show Submit and require manual confirmation
-                    submitBtn.classList.remove('d-none');
-                    submitBtn.disabled = false;
-                    document.getElementById('timerDisplay').textContent = '';
-                    nextBtn.disabled = true;
-                    try {
-                        submitBtn.focus();
-                    } catch (e) {}
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (i !== currentQuestionIndex && canNavigate) {
+                    showQuestion(i);
                 }
+            });
+
+            container.appendChild(btn);
+        }
+    }
+
+    function updateNavigationUI() {
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach((btn, idx) => {
+            btn.className = 'nav-btn';
+
+            const soalId = getQuestionId(idx);
+            const answerName = `jawaban[${soalId}]`;
+            const selectedAnswer = document.querySelector(`input[name="${answerName}"]:checked`);
+
+            if (idx === currentQuestionIndex) {
+                btn.classList.add('current');
+                btn.textContent = idx + 1;
+            } else if (selectedAnswer) {
+                btn.classList.add('answered');
+                btn.textContent = idx + 1;
+            } else {
+                btn.classList.add('unanswered');
+                btn.textContent = idx + 1;
+            }
+        });
+
+        updateProgressBar();
+        updateAnsweredCount();
+    }
+
+    // ==================== QUESTION NAVIGATION ====================
+    function showQuestion(index) {
+        if (index < 0 || index >= totalQuestions) return;
+
+        const questions = document.querySelectorAll('.question');
+        questions.forEach(q => q.style.display = 'none');
+        questions[index].style.display = 'block';
+
+        currentQuestionIndex = index;
+
+        // Save current question index to localStorage
+        localStorage.setItem('last_question_index', index);
+
+        // Update current question display
+        document.getElementById('current').textContent = index + 1;
+
+        updateNavigationUI();
+        updateButtonStates();
+
+        // Scroll to top
+        document.querySelector('.question').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < totalQuestions - 1 && canNavigate) {
+            canNavigate = false;
+            showQuestion(currentQuestionIndex + 1);
+            startQuestionTimer();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0 && canNavigate) {
+            canNavigate = false;
+            showQuestion(currentQuestionIndex - 1);
+            startQuestionTimer();
+        }
+    }
+
+    function updateButtonStates() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+
+        // Update Prev button
+        prevBtn.disabled = currentQuestionIndex === 0 || !canNavigate;
+
+        // If on last question, hide Next button and show Submit button
+        if (isLastQuestion) {
+            nextBtn.classList.add('d-none');
+            submitBtn.classList.remove('d-none');
+        } else {
+            nextBtn.classList.remove('d-none');
+            submitBtn.classList.add('d-none');
+        }
+
+        // Next button disabled if on last question or can't navigate
+        nextBtn.disabled = isLastQuestion || !canNavigate;
+    }
+
+    // ==================== QUESTION TIMER ====================
+    function startQuestionTimer() {
+        let timeLeft = DELAY_BETWEEN_QUESTIONS;
+        const timerElement = document.getElementById('timer');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        // Show timer display
+        timerDisplay.style.display = 'flex';
+        timerElement.textContent = timeLeft;
+
+        // Disable navigation buttons
+        nextBtn.disabled = true;
+        prevBtn.disabled = true;
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                // Hide timer display
+                timerDisplay.style.display = 'none';
+                // Enable navigation buttons
+                canNavigate = true;
+                updateButtonStates();
             }
         }, 1000);
     }
 
-    function goNext() {
-        if (current < total - 1) showQuestion(current + 1);
-    }
-    prevBtn.addEventListener('click', () => {
-        if (!prevBtn.disabled) showQuestion(current - 1);
-    });
-    nextBtn.addEventListener('click', () => {
-        if (!nextBtn.disabled) goNext();
-    });
-
-
-
-    // build initial UI
-    buildQuestionButtons();
-    // initialize exam time display and start timer
-    if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(examTimeRemaining);
-    if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
-    startExamTimer();
-
-    /* Persistence: save user answers and current state to localStorage so accidental refresh won't lose it */
-    const storageKey =
-        'exam_state_<?= isset($siswa['id_siswa']) ? $siswa['id_siswa'] : 'user' ?>_<?= isset($soal[0]['id_mapel']) ? $soal[0]['id_mapel'] : 'mapel' ?>';
-
-    function saveState() {
-        try {
-            const answers = {};
-            questions.forEach(q => {
-                const soalId = q.dataset.soalId || q.dataset.index;
-                const checked = q.querySelector('input[type=radio]:checked');
-                if (checked) answers[soalId] = checked.value;
-            });
-            const state = {
-                answers,
-                current,
-                remaining,
-                examTimeRemaining,
-                ts: Date.now()
-            };
-            localStorage.setItem(storageKey, JSON.stringify(state));
-            // small UX hint: briefly show that progress was autosaved
-            // (left out for brevity; recoverAlert will show when restored)
-        } catch (e) {
-            console.warn('saveState failed', e);
-        }
+    function disableNavigation() {
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = true;
     }
 
-    function loadState() {
-        try {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) return null;
-            const st = JSON.parse(raw);
-            if (st && st.answers) {
-                Object.keys(st.answers).forEach(soalId => {
-                    const selector = `input[name="jawaban[${soalId}]"][value="${st.answers[soalId]}"]`;
-                    const input = document.querySelector(selector);
-                    if (input) input.checked = true;
-                });
-                updateQuestionNav();
-                updateProgress();
-                // Restore exam time remaining if available
-                if (typeof st.examTimeRemaining === 'number') {
-                    // Calculate elapsed time since last save
-                    const elapsedSeconds = Math.floor((Date.now() - (st.ts || Date.now())) / 1000);
-                    examTimeRemaining = Math.max(0, st.examTimeRemaining - elapsedSeconds);
-                    // update displays immediately
-                    if (examTimeDisplay) examTimeDisplay.textContent = formatExamTime(examTimeRemaining);
-                    if (examTimeDisplayHeader) examTimeDisplayHeader.textContent = formatExamTime(
-                        examTimeRemaining);
-                    if (examTimeRemaining <= 300 && examTimeDisplayHeader) examTimeDisplayHeader.style.color =
-                        '#ff6b6b';
+    // ==================== AUTO-SAVE ANSWERS ====================
+    function setupAnswerAutoSave() {
+        const form = document.getElementById('examForm');
+        const inputs = form.querySelectorAll('input[type="radio"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('change', () => {
+                saveAnswersToStorage();
+                updateNavigationUI();
+
+                // Show recovery alert if there are saved answers
+                if (Object.keys(getSavedAnswers()).length > 0) {
+                    document.getElementById('recoverAlert').classList.remove('d-none');
                 }
-                return st;
-            }
-        } catch (e) {
-            console.warn('loadState failed', e);
-        }
-        return null;
-    }
-
-    function clearState() {
-        try {
-            localStorage.removeItem(storageKey);
-        } catch (e) {
-            /* ignore */
-        }
-    }
-
-    // if there's saved state, restore answers and current index, otherwise show first question
-    const restored = loadState();
-    if (restored) {
-        // reveal a small notice and restore position+timer
-        document.getElementById('recoverAlert').classList.remove('d-none');
-        showQuestion((typeof restored.current === 'number') ? restored.current : 0, (typeof restored
-            .remaining === 'number') ? restored.remaining : undefined);
-    } else {
-        if (total > 0) showQuestion(0);
-    }
-
-    // add saving when answers change
-    document.querySelectorAll('.question input[type=radio]').forEach(r => {
-        r.addEventListener('change', () => {
-            updateQuestionNav();
-            updateProgress();
-            saveState();
+            });
         });
+
+        // Save on page unload
+        window.addEventListener('beforeunload', () => {
+            saveAnswersToStorage();
+            localStorage.setItem('exam_start_time', examStartTime);
+            localStorage.setItem('exam_time_remaining', examTimeRemaining);
+            localStorage.setItem('last_question_index', currentQuestionIndex);
+        });
+    }
+
+    function saveAnswersToStorage() {
+        const form = document.getElementById('examForm');
+        const formData = new FormData(form);
+        const answers = {};
+
+        for (let [key, value] of formData.entries()) {
+            if (key.startsWith('jawaban[')) {
+                answers[key] = value;
+            }
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+        localStorage.setItem('exam_start_time', examStartTime);
+    }
+
+    function getSavedAnswers() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : {};
+    }
+
+    function loadSavedAnswers() {
+        const saved = getSavedAnswers();
+
+        for (let [key, value] of Object.entries(saved)) {
+            const input = document.querySelector(`input[name="${key}"][value="${value}"]`);
+            if (input) {
+                input.checked = true;
+            }
+        }
+
+        if (Object.keys(saved).length > 0) {
+            document.getElementById('recoverAlert').classList.remove('d-none');
+        }
+    }
+
+    // ==================== PROGRESS TRACKING ====================
+    function updateProgressBar() {
+        let answered = 0;
+        for (let i = 0; i < totalQuestions; i++) {
+            const soalId = getQuestionId(i);
+            const answerName = `jawaban[${soalId}]`;
+            if (document.querySelector(`input[name="${answerName}"]:checked`)) {
+                answered++;
+            }
+        }
+
+        const percentage = Math.round((answered / totalQuestions) * 100);
+        const progressBar = document.getElementById('progressBar');
+        progressBar.style.width = percentage + '%';
+        progressBar.textContent = percentage + '%';
+    }
+
+    function updateAnsweredCount() {
+        let answered = 0;
+        for (let i = 0; i < totalQuestions; i++) {
+            const soalId = getQuestionId(i);
+            const answerName = `jawaban[${soalId}]`;
+            if (document.querySelector(`input[name="${answerName}"]:checked`)) {
+                answered++;
+            }
+        }
+        document.getElementById('answeredCount').textContent = answered;
+    }
+
+    function getQuestionId(index) {
+        return document.querySelectorAll('.question')[index]?.dataset.soalId || index;
+    }
+
+    // ==================== SUBMIT ====================
+    document.getElementById('submitBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        submitExam();
     });
 
-    // Modal (simple JS modal to avoid dependency)
-    const modalBackdrop = document.createElement('div');
-    modalBackdrop.className = 'modal-backdrop-custom';
-    modalBackdrop.id = 'confirmSubmitModal';
-    modalBackdrop.innerHTML = `
-        <div class="modal-custom">
-            <h5>Konfirmasi Kirim Jawaban</h5>
-            <p>Yakin ingin mengirim semua jawaban Anda? Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="text-end">
-                <button type="button" class="btn btn-secondary btn-sm me-2" id="modalCancel">Batal</button>
-                <button type="button" class="btn btn-primary btn-sm" id="modalConfirm">Kirim</button>
-            </div>
-        </div>`;
-    document.body.appendChild(modalBackdrop);
+    function submitExam() {
+        clearInterval(examTimer);
+        saveAnswersToStorage();
 
-    document.getElementById('modalCancel').addEventListener('click', () => {
-        modalBackdrop.style.display = 'none';
-    });
-    document.getElementById('modalConfirm').addEventListener('click', function() {
-        // disable confirm to prevent double submit
-        this.disabled = true;
-        modalBackdrop.style.display = 'none';
-        // clear saved state to avoid stale restores
-        clearState();
-        // show sending message & submit form
-        document.getElementById('timerDisplay').textContent = 'Mengirim jawaban...';
-        // disable submit button
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Mengirim...';
-        examForm.submit();
-    });
+        if (confirm('Apakah Anda yakin ingin mengirim jawaban?')) {
+            document.getElementById('examForm').submit();
+        }
+    }
 
-    submitBtn.addEventListener('click', function() {
-        // show modal
-        document.getElementById('confirmSubmitModal').style.display = 'flex';
-    });
+    // ==================== EVENT LISTENERS ====================
+    document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
 
-    // expose updateProgress if other code changes answers
-    window.updateExamProgress = updateProgress;
-
+    // Start
+    init();
 });
 </script>
-
-<!-- Modal markup included via JS -->
