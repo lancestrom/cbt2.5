@@ -674,10 +674,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function submitExam() {
         clearInterval(examTimer);
         saveAnswersToStorage();
-
-        if (confirm('Apakah Anda yakin ingin mengirim jawaban?')) {
-            document.getElementById('examForm').submit();
-        }
+        document.getElementById('examForm').submit();
+        // if (confirm('Apakah Anda yakin ingin mengirim jawaban?')) {
+        //     document.getElementById('examForm').submit();
+        // }
     }
 
     // ==================== EVENT LISTENERS ====================
