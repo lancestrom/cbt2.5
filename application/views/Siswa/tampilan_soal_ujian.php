@@ -327,7 +327,7 @@ label input[type="radio"]:checked {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // ==================== CONFIGURATION ====================
-    const DELAY_BETWEEN_QUESTIONS = 10; // 10 seconds delay
+    const DELAY_BETWEEN_QUESTIONS = 3; // 10 seconds delay
     const STORAGE_KEY = 'exam_answers_' + new Date().toISOString().split('T')[0];
     const EXAM_DURATION = 60 * 60; // 60 minutes in seconds
 
