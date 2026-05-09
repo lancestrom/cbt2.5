@@ -9,6 +9,8 @@
                     </h4>
 
                     <h5>
+                        <a class="btn btn-success btn-sm text-uppercase font-weight-bold"
+                            href="<?= base_url('Dashboard_siswa') ?>">Kembali</a>
                         <a class="btn btn-danger btn-sm text-uppercase font-weight-bolder"
                             href="<?= base_url() ?>Dashboard_siswa/logout">Logout</a>
                     </h5>

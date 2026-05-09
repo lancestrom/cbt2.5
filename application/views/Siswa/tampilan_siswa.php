@@ -44,6 +44,7 @@
                     <div class="student-clock text-danger mb-2" aria-live="polite">
                         <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span>
                     </div>
+
                     <a class="btn btn-outline-danger btn-sm font-weight-bold"
                         href="<?= base_url('Dashboard_siswa/logout') ?>">Logout</a>
                 </div>
