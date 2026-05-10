@@ -89,6 +89,9 @@
     </div>
 
     <script>
+        // Bersihkan LocalStorage saat kembali ke halaman login (setelah logout)
+        localStorage.clear();
+
         function updateClock() {
             const now = new Date();
 

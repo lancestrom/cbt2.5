@@ -110,6 +110,14 @@ class Dashboard_siswa extends MY_Controller
 
         $sess = $this->session->userdata('username');
 
+        // Hapus custom session cookie dan data di database
+        $session_id = get_cookie('app_session_id');
+        if ($session_id) {
+            $this->load->model('Session_Model');
+            $this->Session_Model->delete_session($session_id);
+        }
+        delete_cookie('app_session_id');
+
         $data = array(
             'status' => 'SELESAI'
         );
