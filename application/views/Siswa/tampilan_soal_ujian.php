@@ -1,10 +1,3 @@
-<?php
-// Mengacak urutan soal secara unik untuk tiap siswa berdasarkan username dan ID jadwal
-if (!empty($soal) && is_array($soal)) {
-    srand(crc32(($siswa['username'] ?? 'user') . ($soal[0]['id_jadwal'] ?? 'jadwal')));
-    shuffle($soal);
-}
-?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -339,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const USERNAME = "<?= $siswa['username'] ?>";
 
     // ==================== CONFIGURATION ====================
-    const DELAY_BETWEEN_QUESTIONS = 10; // 10 seconds delay, consistent with display
+    const DELAY_BETWEEN_QUESTIONS = 120; // 10 seconds delay, consistent with display
     const STORAGE_KEY_ANSWERS = `exam_answers_${USERNAME}_${EXAM_ID}`;
     const STORAGE_KEY_START_TIME = `exam_start_time_${USERNAME}_${EXAM_ID}`;
     const STORAGE_KEY_TIME_REMAINING = `exam_time_remaining_${USERNAME}_${EXAM_ID}`;
