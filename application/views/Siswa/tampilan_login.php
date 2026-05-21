@@ -58,7 +58,7 @@
                                     </div>
 
                                     <?php if ($this->session->flashdata('pesan')): ?>
-                                        <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
+                                    <div class="mb-3"><?= $this->session->flashdata('pesan') ?></div>
                                     <?php endif; ?>
 
                                     <form class="user" method="post"
@@ -89,29 +89,26 @@
     </div>
 
     <script>
-        // Bersihkan LocalStorage saat kembali ke halaman login (setelah logout)
-        localStorage.clear();
+    function updateClock() {
+        const now = new Date();
 
-        function updateClock() {
-            const now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        let seconds = now.getSeconds();
 
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
+        // Tambah 0 di depan jika < 10
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
 
-            // Tambah 0 di depan jika < 10
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
+        document.getElementById('hours').innerText = hours;
+        document.getElementById('minutes').innerText = minutes;
+        document.getElementById('seconds').innerText = seconds;
+    }
 
-            document.getElementById('hours').innerText = hours;
-            document.getElementById('minutes').innerText = minutes;
-            document.getElementById('seconds').innerText = seconds;
-        }
-
-        // Update tiap 1 detik
-        setInterval(updateClock, 1000);
-        updateClock();
+    // Update tiap 1 detik
+    setInterval(updateClock, 1000);
+    updateClock();
     </script>
 
     <!-- Bootstrap core JavaScript-->

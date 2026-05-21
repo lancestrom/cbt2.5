@@ -116,7 +116,7 @@ class Dashboard_siswa extends MY_Controller
             $this->load->model('Session_Model');
             $this->Session_Model->delete_session($session_id);
         }
-        delete_cookie('app_session_id');
+        delete_cookie('app_session_id', '', '/');
 
         $data = array(
             'status' => 'SELESAI'
@@ -127,7 +127,7 @@ class Dashboard_siswa extends MY_Controller
 
         $this->db->delete('siswa_login', array('username' => $sess));
         $this->session->sess_destroy();
-        redirect('/');
+        redirect('Siswa_login');
     }
 
     public function logout()
@@ -141,7 +141,7 @@ class Dashboard_siswa extends MY_Controller
         }
 
         // Hapus cookie
-        delete_cookie('app_session_id');
+        delete_cookie('app_session_id', '', '/');
 
         // Hapus session CodeIgniter
         $this->session->sess_destroy();
