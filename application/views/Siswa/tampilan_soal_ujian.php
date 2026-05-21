@@ -36,7 +36,7 @@
                             <h5 class="mb-0 fw-bold">📋 SOAL UJIAN</h5>
                         </div>
                         <div class="small">
-                            <span>Per soal: <strong>10 detik</strong></span> |
+                            <span><strong></strong></span> |
                             <span>Total: <strong id="examTimeDisplay">30:00</strong></span>
                         </div>
                     </div>
