@@ -332,13 +332,13 @@
         const USERNAME = "<?= $siswa['username'] ?>";
 
         // ==================== CONFIGURATION ====================
-        const DELAY_BETWEEN_QUESTIONS = 120; // Disamakan dengan tampilan (10 detik)
+        const DELAY_BETWEEN_QUESTIONS = 5; // Delay navigasi antar soal
         const STORAGE_KEY_ANSWERS = `exam_answers_${USERNAME}_${EXAM_ID}`;
         const STORAGE_KEY_START_TIME = `exam_start_time_${USERNAME}_${EXAM_ID}`;
         const STORAGE_KEY_TIME_REMAINING = `exam_time_remaining_${USERNAME}_${EXAM_ID}`;
         const STORAGE_KEY_LAST_QUESTION = `last_question_index_${USERNAME}_${EXAM_ID}`;
         const STORAGE_KEY_WAIT_UNTIL = `exam_wait_until_${USERNAME}_${EXAM_ID}`;
-        const EXAM_DURATION_SECONDS = 120 * 60; // Durasi ujian 2 jam (hardcoded)
+        const EXAM_DURATION_SECONDS = 50 * 60; // Durasi ujian 50 menit
 
         // ==================== STATE ====================
         let currentQuestionIndex = 0;
